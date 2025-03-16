@@ -1,0 +1,35 @@
+{
+	"name": "PHP & MariaDB",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"forwardPorts": [
+	  8000,
+	  3306,
+	  5173,
+	  8081
+	],
+	"features": {
+	  "ghcr.io/devcontainers/features/node:1": {
+		"version": "lts",
+		"pnpmVersion": "latest",
+		"nvmVersion": "latest"
+	  },
+	  "ghcr.io/devcontainers-extra/features/composer:1": {
+		"version": "latest"
+	  }
+	},
+	"postCreateCommand": "composer global require laravel/installer",
+	"customizations": {
+	  "vscode": {
+		"settings": {},
+		"extensions": [
+		  "junstyle.php-cs-fixer",
+		  "bmewburn.vscode-intelephense-client",
+		  "onecentlin.laravel-blade",
+		  "ryannaddy.laravel-artisan"
+		]
+	  }
+	}
+  }
+  

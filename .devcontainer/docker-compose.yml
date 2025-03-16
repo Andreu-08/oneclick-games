@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_oc
+    volumes:
+      - ../..:/workspaces:cached
+    ports:
+      - "8000:8000"   # Laravel backend accesible en http://localhost:8000
+      - "5173:5173"   # Vue frontend accesible en http://localhost:5173
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mariadb:10.4
+    container_name: mariadb_oc
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: oneclick
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mariadb
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_oc
+    restart: always
+    ports:
+      - "8081:80"     # phpMyAdmin accesible en http://localhost:8081
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+volumes:
+  mariadb-data:
+
+networks:
+  app-network:
