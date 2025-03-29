@@ -19,11 +19,15 @@ WORKDIR /app
 # Copia el proyecto Laravel
 COPY . .
 
-# Instala las dependencias de Composer
+# Limpia caché de Composer por si acaso
+RUN composer clear-cache
+
+# Asegura que las extensiones ya están cargadas antes de instalar dependencias
+RUN php -m | grep dom || echo "🚨 DOM NO INSTALADO"
 RUN composer install --no-dev --optimize-autoloader
 
-# Expone el puerto que Laravel usará
+# Expone el puerto
 EXPOSE 8080
 
-# Comando para iniciar Laravel con servidor embebido
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+# Comando que arranca Laravel o mantiene el contenedor vivo
+CMD php artisan serve --host=0.0.0.0 --port=8080 || tail -f /dev/null

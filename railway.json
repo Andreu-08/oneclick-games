@@ -1,5 +1,6 @@
 {
-    "build": {
-      "root": "backend_oc"
-    }
+  "build": {
+    "root": "backend_oc",
+    "builder": "docker"
   }
+}
