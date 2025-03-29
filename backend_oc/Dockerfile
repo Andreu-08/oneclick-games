@@ -10,24 +10,26 @@ RUN apt-get update && apt-get install -y \
     curl \
     && docker-php-ext-install pdo pdo_mysql dom
 
-# Instala Composer desde la imagen oficial
+# Instala Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Define directorio de trabajo
+# Directorio de trabajo
 WORKDIR /app
 
-# Copia el proyecto Laravel
+# Copia todos los archivos del proyecto
 COPY . .
 
-# Limpia caché de Composer por si acaso
-RUN composer clear-cache
-
-# Asegura que las extensiones ya están cargadas antes de instalar dependencias
+# Asegura que dom está disponible
 RUN php -m | grep dom || echo "🚨 DOM NO INSTALADO"
-RUN composer install --no-dev --optimize-autoloader
+
+# Instala dependencias de Laravel (sin dev en producción)
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
+
+# Ejecuta las migraciones automáticamente en cada despliegue
+RUN php artisan config:clear && php artisan cache:clear && php artisan migrate --force || true
 
 # Expone el puerto
 EXPOSE 8080
 
-# Comando que arranca Laravel o mantiene el contenedor vivo
-CMD php artisan serve --host=0.0.0.0 --port=8080 || tail -f /dev/null
+# Inicia Laravel en producción
+CMD php artisan serve --host=0.0.0.0 --port=8080
