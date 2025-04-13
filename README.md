@@ -93,6 +93,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes programas en tu
 ```bash
 git clone https://github.com/tu-usuario/oneclick-games.git
 cd oneclick-games
+code .
 ```
 
 2. Abre el proyecto en **Visual Studio Code** usando DevContainer:
