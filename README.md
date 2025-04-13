@@ -76,22 +76,46 @@ Puedes acceder directamente a los proyectos desde aquí:
 
 ---
 
+## ✅ Requisitos previos
+
+Antes de comenzar, asegúrate de tener instalados los siguientes programas en tu sistema:
+
+- [Docker](https://www.docker.com/products/docker-desktop/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+- Extensión de VS Code: [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- Git (opcional, pero recomendado): [Git](https://git-scm.com/)
+
+---
+
 ## 🚀 Instalación local (DevContainer)
 
 1. Clona este repositorio:
 ```bash
 git clone https://github.com/tu-usuario/oneclick-games.git
+cd oneclick-games
 ```
 
-2. Abre el proyecto en **Visual Studio Code** con DevContainer:
-- Asegúrate de tener instaladas las extensiones de **Remote Containers** y **Docker**.
-- VS Code detectará automáticamente el entorno y levantará el contenedor.
+2. Abre el proyecto en **Visual Studio Code** usando DevContainer:
+- Asegúrate de tener Docker y Dev Containers habilitados.
+- Abre la carpeta del proyecto (`oneclick-games`) en VS Code.
+- VS Code detectará automáticamente el entorno DevContainer y levantará el contenedor.
+- Espera a que se instale el entorno completo (puede tardar un poco la primera vez).
 
-3. Accede a las carpetas:
-- [`/backend_oc`](./backend_oc/): contiene el API Laravel.
-- [`/frontend_oc`](./frontend_oc/): contiene el frontend en Vue 3.
-php artisan serve --host=0.0.0.0 --port=8083
----
+3. Ejecuta el script de configuración:
+```bash
+./setup.sh
+```
+Este script instalará todas las dependencias necesarias y añadirá dos comandos útiles.
+
+4. Utiliza los siguientes comandos para levantar los servidores:
+```bash
+run_back   # Levanta el backend Laravel en http://localhost:8000
+run_front  # Levanta el frontend Vue en http://localhost:5173
+```
+
+¡Listo! Ya puedes comenzar a desarrollar en OneClick Games 🎮
+
+
 
 ## 📄 Licencia
 
