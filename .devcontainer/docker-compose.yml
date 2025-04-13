@@ -5,49 +5,48 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: laravel_oc
+    container_name: one_click_container
     volumes:
       - ../..:/workspaces:cached
     ports:
-      - "8000:8000"   # Laravel backend accesible en http://localhost:8000
-      - "5173:5173"   # Vue frontend accesible en http://localhost:5173
+      - "8000:8000"   # Laravel backend
+      - "5173:5173"   # Vue frontend
     depends_on:
-      - db
+      - postgres
     networks:
       - app-network
 
-  db:
-    image: mariadb:10.4
-    container_name: mariadb_oc
+  postgres:
+    image: postgres:16
+    container_name: postgres_oc
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: mariadb
-      MYSQL_DATABASE: oneclick
-      MYSQL_USER: mariadb
-      MYSQL_PASSWORD: mariadb
+      POSTGRES_USER: oneclick
+      POSTGRES_PASSWORD: oneclick
+      POSTGRES_DB: oneclick_db
     volumes:
-      - mariadb-data:/var/lib/mysql
+      - postgres-data:/var/lib/postgresql/data
     ports:
-      - "3306:3306"
+      - "5432:5432"
     networks:
       - app-network
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin_oc
-    restart: always
-    ports:
-      - "8081:80"     # phpMyAdmin accesible en http://localhost:8081
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_oc
+    restart: unless-stopped
     environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"     # Accede a pgAdmin en http://localhost:5050
     depends_on:
-      - db
+      - postgres
     networks:
       - app-network
 
 volumes:
-  mariadb-data:
+  postgres-data:
 
 networks:
   app-network:

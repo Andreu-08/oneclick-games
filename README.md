@@ -90,7 +90,7 @@ git clone https://github.com/tu-usuario/oneclick-games.git
 3. Accede a las carpetas:
 - [`/backend_oc`](./backend_oc/): contiene el API Laravel.
 - [`/frontend_oc`](./frontend_oc/): contiene el frontend en Vue 3.
-
+php artisan serve --host=0.0.0.0 --port=8083
 ---
 
 ## 📄 Licencia
