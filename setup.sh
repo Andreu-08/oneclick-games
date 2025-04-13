@@ -8,6 +8,9 @@ sudo apt-get update -y && sudo apt-get upgrade -y
 echo "📂 Instalando dependencias de backend (Laravel)..."
 cd backend_oc
 composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
 cd ..
 
 # 📦 3. Instalar dependencias del frontend
