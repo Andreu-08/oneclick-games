@@ -75,7 +75,6 @@ Puedes acceder directamente a los proyectos desde aquí:
 - 👉 [Ir al backend (Laravel)](./backend_oc/)
 
 ---
-
 ## ✅ Requisitos previos
 
 Antes de comenzar, asegúrate de tener instalados los siguientes programas en tu sistema:
@@ -90,6 +89,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes programas en tu
 ## 🚀 Instalación local (DevContainer)
 
 1. Clona este repositorio:
+
 ```bash
 git clone https://github.com/tu-usuario/oneclick-games.git
 cd oneclick-games
@@ -97,48 +97,55 @@ code .
 ```
 
 2. Abre el proyecto en **Visual Studio Code** usando DevContainer:
+
 - Asegúrate de tener Docker y Dev Containers habilitados.
 - Abre la carpeta del proyecto (`oneclick-games`) en VS Code.
 - VS Code detectará automáticamente el entorno DevContainer y levantará el contenedor.
 - Espera a que se instale el entorno completo (puede tardar un poco la primera vez).
 
 3. Ejecuta el script de configuración:
+
 ```bash
 ./setup.sh
 ```
+
 Este script:
+
 - Actualiza el sistema operativo dentro del contenedor.
 - Instala todas las dependencias de backend (Laravel) y frontend (Vue).
-- Ejecuta automáticamente las migraciones para crear las tablas necesarias en la base de datos.
+- Copia el archivo `.env` del backend, genera la clave de la aplicación y ejecuta las migraciones.
 - Crea dos alias permanentes para levantar los servidores:
-  - `run_back`: ejecuta el backend en http://localhost:8000
-  - `run_front`: ejecuta el frontend en http://localhost:5173
+  - `run_back`: ejecuta el backend en [http://localhost:8000](http://localhost:8000)
+  - `run_front`: ejecuta el frontend en [http://localhost:5173](http://localhost:5173)
 
-4. Copia el archivo de entorno del backend y genera la clave de aplicación:
+⚠️ Si los comandos `run_back` o `run_front` no funcionan, ejecuta manualmente:
+
 ```bash
-cp backend_oc/.env.example backend_oc/.env
-cd backend_oc
-php artisan key:generate
-cd ..
+source ~/.bashrc
 ```
 
-5. Utiliza los siguientes comandos para levantar los servidores:
+Esto cargará los alias en la terminal actual.
+
+4. Utiliza los siguientes comandos para levantar los servidores:
+
 ```bash
 run_back   # Levanta el backend Laravel en http://localhost:8000
 run_front  # Levanta el frontend Vue en http://localhost:5173
 ```
 
-6. Visualizar la base de datos:
-Puedes acceder a pgAdmin en [http://localhost:5050](http://localhost:5050) con las siguientes credenciales por defecto:
-- **Usuario:** admin@admin.com
+5. Visualizar la base de datos:
+   Puedes acceder a pgAdmin en [http://localhost:5050](http://localhost:5050) con las siguientes credenciales por defecto:
+
+- **Usuario:** [admin@admin.com](mailto\:admin@admin.com)
 - **Contraseña:** admin
 
 Luego añade una nueva conexión manualmente con estos datos:
+
 - **Host:** postgres
 - **Puerto:** 5432
 - **Usuario:** oneclick
 - **Contraseña:** oneclick
-- **Base de datos:** oneclick_db
+- **Base de datos:** oneclick\_db
 
 ## 🤝 Contacto
 
