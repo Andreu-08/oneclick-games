@@ -39,11 +39,10 @@
   <img src="https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vue.js&logoColor=4FC08D"/>
   <img src="https://img.shields.io/badge/Tailwind_CSS-0EA5E9?style=for-the-badge&logo=tailwind-css&logoColor=white"/>
   <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white"/>
-  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
-  <img src="https://img.shields.io/badge/phpMyAdmin-F89820?style=for-the-badge&logo=phpMyAdmin&logoColor=white"/>
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"/>
+  <img src="https://img.shields.io/badge/pgAdmin-316192?style=for-the-badge&logo=pgadmin&logoColor=white"/>
   <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
   <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Railway-000000?style=for-the-badge&logo=railway&logoColor=white"/>
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
 </p>
 
@@ -51,11 +50,11 @@
 
 - **Frontend**: Vue.js 3 + Vite + Tailwind CSS
 - **Backend**: Laravel 12 (API RESTful)
-- **Base de datos**: MySQL (gestionada con phpMyAdmin)
+- **Base de datos**: PostgreSQL (gestionada con pgAdmin)
 - **Diseño**: Figma (UI) + Draw.io (diagramas)
 - **Control de versiones**: Git + GitHub
 - **Contenedores**: Dev Containers con Docker
-- **Despliegue**: Vercel (Frontend) · Railway (Backend + DB)
+- **Despliegue**: Vercel (Frontend)
 
 ---
 
@@ -150,6 +149,6 @@ Luego añade una nueva conexión manualmente con estos datos:
 ## 🤝 Contacto
 
 **Andreu Orenga Ramón**  
-📧 andreuorenga@gmial.com
+📧 andreuorenga@gmial.com  
 🎓 2º DAW - Proyecto Fin de Ciclo
 
