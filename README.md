@@ -107,15 +107,19 @@ cd oneclick-games
 ```
 Este script instalará todas las dependencias necesarias y añadirá dos comandos útiles.
 
-4. Utiliza los siguientes comandos para levantar los servidores:
+4. Copia el archivo de entorno del backend y genera la clave de aplicación:
+```bash
+cp backend_oc/.env.example backend_oc/.env
+cd backend_oc
+php artisan key:generate
+cd ..
+```
+
+5. Utiliza los siguientes comandos para levantar los servidores:
 ```bash
 run_back   # Levanta el backend Laravel en http://localhost:8000
 run_front  # Levanta el frontend Vue en http://localhost:5173
 ```
-
-¡Listo! Ya puedes comenzar a desarrollar en OneClick Games 🎮
-
-
 
 ## 📄 Licencia
 
