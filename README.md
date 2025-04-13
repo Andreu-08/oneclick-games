@@ -112,10 +112,15 @@ Este script instalará todas las dependencias necesarias y añadirá dos comando
 cp backend_oc/.env.example backend_oc/.env
 cd backend_oc
 php artisan key:generate
+```
+
+5. Ejecuta las migraciones para crear las tablas necesarias en la base de datos:
+```bash
+php artisan migrate
 cd ..
 ```
 
-5. Utiliza los siguientes comandos para levantar los servidores:
+6. Utiliza los siguientes comandos para levantar los servidores:
 ```bash
 run_back   # Levanta el backend Laravel en http://localhost:8000
 run_front  # Levanta el frontend Vue en http://localhost:5173
