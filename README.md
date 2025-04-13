@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/logo-oneclickgames.png" alt="OneClick Games Logo" width="250"/>
+  <img src="frontend_oc/src/assets/Logo_oc.png" alt="OneClick Games Logo" width="250"/>
 </p>
 
 <h1 align="center">🎮 OneClick Games</h1>
