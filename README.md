@@ -105,32 +105,39 @@ cd oneclick-games
 ```bash
 ./setup.sh
 ```
-Este script instalará todas las dependencias necesarias y añadirá dos comandos útiles.
+Este script:
+- Actualiza el sistema operativo dentro del contenedor.
+- Instala todas las dependencias de backend (Laravel) y frontend (Vue).
+- Ejecuta automáticamente las migraciones para crear las tablas necesarias en la base de datos.
+- Crea dos alias permanentes para levantar los servidores:
+  - `run_back`: ejecuta el backend en http://localhost:8000
+  - `run_front`: ejecuta el frontend en http://localhost:5173
 
 4. Copia el archivo de entorno del backend y genera la clave de aplicación:
 ```bash
 cp backend_oc/.env.example backend_oc/.env
 cd backend_oc
 php artisan key:generate
-```
-
-5. Ejecuta las migraciones para crear las tablas necesarias en la base de datos:
-```bash
-php artisan migrate
 cd ..
 ```
 
-6. Utiliza los siguientes comandos para levantar los servidores:
+5. Utiliza los siguientes comandos para levantar los servidores:
 ```bash
 run_back   # Levanta el backend Laravel en http://localhost:8000
 run_front  # Levanta el frontend Vue en http://localhost:5173
 ```
 
-## 📄 Licencia
+6. Visualizar la base de datos:
+Puedes acceder a pgAdmin en [http://localhost:5050](http://localhost:5050) con las siguientes credenciales por defecto:
+- **Usuario:** pgadmin4@pgadmin.org
+- **Contraseña:** admin
 
-Este proyecto se desarrolla como parte del Proyecto Final del Ciclo de Desarrollo de Aplicaciones Web. Uso educativo y sin ánimo de lucro.
-
----
+Luego añade una nueva conexión manualmente con estos datos:
+- **Host:** postgres
+- **Puerto:** 5432
+- **Usuario:** oneclick
+- **Contraseña:** oneclick
+- **Base de datos:** oneclick_db
 
 ## 🤝 Contacto
 
