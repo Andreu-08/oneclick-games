@@ -129,7 +129,7 @@ run_front  # Levanta el frontend Vue en http://localhost:5173
 
 6. Visualizar la base de datos:
 Puedes acceder a pgAdmin en [http://localhost:5050](http://localhost:5050) con las siguientes credenciales por defecto:
-- **Usuario:** pgadmin4@pgadmin.org
+- **Usuario:** admin@admin.com
 - **Contraseña:** admin
 
 Luego añade una nueva conexión manualmente con estos datos:
