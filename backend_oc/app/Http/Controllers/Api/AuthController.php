@@ -57,7 +57,7 @@ class AuthController extends Controller
         ]);
     }
 
-
+    //Ruta para hacer el logout desde la Api
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -67,5 +67,11 @@ class AuthController extends Controller
         ]);
     }
 
-
+    //Ruta para acceder a la infomacion del usuario autenticado
+    public function profile(Request $request)
+    {
+        return response()->json([
+            'user' => $request->user()
+        ]);
+    }
 }

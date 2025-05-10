@@ -35,6 +35,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'pin',
+        'is_admin',
     ];
 
     /**
