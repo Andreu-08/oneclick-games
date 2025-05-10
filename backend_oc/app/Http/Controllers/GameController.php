@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    //index para listar todos los jeugos
+    //index para listar todos los juegos
     public function index()
     {
         $games = Game::where('is_active', true)
@@ -17,6 +17,7 @@ class GameController extends Controller
         return response()->json($games);
     }
 
+    //muestra un juego en especifico
     public function show($id)
     {
         $game = Game::findOrFail($id);
@@ -32,6 +33,7 @@ class GameController extends Controller
         ]);
     }
 
+    //funcion para crear un juego desde el admin
     public function store(Request $request)
     {
 
@@ -57,6 +59,7 @@ class GameController extends Controller
         ], 201);
     }
 
+    //funcion para crear un juego desde el admin
     public function update(Request $request, $id)
     {
         $game = Game::findOrFail($id);
@@ -72,6 +75,36 @@ class GameController extends Controller
 
         return response()->json([
             'message' => 'Juego actualizado correctamente',
+            'game' => $game
+        ]);
+    }
+
+    //funcion para desactivar un juego desde el admin
+    public function desactivate($id)
+    {
+        $game = Game::findOrFail($id);
+
+        $game->is_active = false;
+        $game->save();
+
+        return response()->json([
+            'message' => 'Juego desactivado correctamente'
+        ]);
+    }
+
+    public function activate($id)
+    {
+        $game = Game::findOrFail($id);
+
+        if ($game->is_active) {
+            return response()->json(['message' => 'El juego ya está activo.'], 400);
+        }
+
+        $game->is_active = true;
+        $game->save();
+
+        return response()->json([
+            'message' => 'Juego reactivado correctamente',
             'game' => $game
         ]);
     }
