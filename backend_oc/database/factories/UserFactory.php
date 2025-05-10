@@ -21,6 +21,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => 'password', // será hasheado automáticamente por el modelo
+            'pin' => 1234,
             'is_admin' => false,
             'remember_token' => Str::random(10),
         ];
