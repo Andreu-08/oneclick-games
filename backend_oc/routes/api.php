@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -23,9 +24,14 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function (){
     Route::put('/games/{id}', [GameController::class, 'update']);
     Route::patch('/games/{id}/desactivate', [GameController::class, 'desactivate']);
     Route::patch('/games/{id}/activate', [GameController::class, 'activate']);
+
+    //rutas para las puntuciones de los usuarios autenticados
+    Route::post('/scores', [ScoreController::class, 'store']);
+    Route::get('/scores/user/{user_id}', [ScoreController::class, 'userScores']);
+    Route::get('/scores/game/{game_id}', [ScoreController::class, 'gameScores']);
+    Route::get('/scores/game/{id}/top', [ScoreController::class, 'topScores']);
+    Route::get('/scores/top', [ScoreController::class, 'globalRanking']);
 });
-
-
 
 //Rutas publicas para los usuarios
 Route::get('/users',[UserController::class, 'index']);
