@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
 # Instala extensiones necesarias y herramientas del sistema
 RUN apt-get update && apt-get install -y \
@@ -26,8 +26,8 @@ RUN composer install --no-dev --optimize-autoloader
 # Establece permisos adecuados
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expone el puerto 9000 para PHP-FPM
-EXPOSE 9000
+# Expone el puerto usado por el servidor embebido de Laravel
+EXPOSE 8080
 
-# Comando por defecto para iniciar PHP-FPM
-CMD ["php-fpm"]
+# Comando por defecto: migraciones + servidor Laravel
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080
