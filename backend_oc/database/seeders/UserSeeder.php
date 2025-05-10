@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@oneclick',
-            'password' => 'admin123', // se hashea automáticamente por el modelo
+            'password' => 'admin123',
             'is_admin' => true,
         ]);
     }
