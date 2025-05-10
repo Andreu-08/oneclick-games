@@ -1,5 +1,4 @@
-# Imagen base con PHP
-FROM php:8.2-cli
+FROM php:8.2-fpm
 
 # Instala extensiones necesarias y herramientas del sistema
 RUN apt-get update && apt-get install -y \
@@ -9,22 +8,26 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql dom
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql
 
-# Instala Composer desde la imagen oficial
+# Instala Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Directorio de trabajo
-WORKDIR /app
+# Establece el directorio de trabajo
+WORKDIR /var/www/html
 
-# Copia todo el contenido del proyecto
+# Copia el contenido del proyecto
 COPY . .
 
 # Instala dependencias de producción
 RUN composer install --no-dev --optimize-autoloader
 
-# Expone el puerto del servidor embebido
-EXPOSE 8080
+# Establece permisos adecuados
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Ejecuta migraciones y lanza el servidor Laravel
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080
+# Expone el puerto 9000 para PHP-FPM
+EXPOSE 9000
+
+# Comando por defecto para iniciar PHP-FPM
+CMD ["php-fpm"]
