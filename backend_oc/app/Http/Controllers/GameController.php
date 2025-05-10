@@ -56,4 +56,23 @@ class GameController extends Controller
             'game' => $game
         ], 201);
     }
+
+    public function update(Request $request, $id)
+    {
+        $game = Game::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'description' => 'nullable|string',
+            'difficulty_levels' => 'nullable|array',
+            'is_active' => 'boolean',
+        ]);
+
+        $game->update($validated);
+
+        return response()->json([
+            'message' => 'Juego actualizado correctamente',
+            'game' => $game
+        ]);
+    }
 }
