@@ -12,14 +12,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear 9 usuarios normales
-        User::factory()->count(25)->create();
-
         // Crear un usuario admin fijo
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@oneclick',
             'password' => 'admin123',
+            'pin' => '1234',
             'is_admin' => true,
         ]);
     }
