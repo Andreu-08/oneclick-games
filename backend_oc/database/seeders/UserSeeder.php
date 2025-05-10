@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -16,8 +17,8 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@oneclick',
-            'password' => 'admin123',
-            'pin' => '1234',
+            'password' => Hash::make('admin123'), // contraseña por si la usas en futuro
+            'pin' => Hash::make('1234'),          // el pin también debe estar hasheado
             'is_admin' => true,
         ]);
     }

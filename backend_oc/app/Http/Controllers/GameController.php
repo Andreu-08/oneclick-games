@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-
     //index para listar todos los jeugos
     public function index()
     {
@@ -33,4 +32,28 @@ class GameController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+
+        // Validar los datos de entrada
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'difficulty_levels' => 'nullable|array',
+            'is_active' => 'boolean',
+        ]);
+
+        //Crea el juego
+        $game = Game::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'difficulty_levels' => $validated['difficulty_levels'] ?? null,
+            'is_active' => $validated['is_active'] ?? true,
+        ]);
+
+        return response()->json([
+            'message' => 'Juego creado correctamente',
+            'game' => $game
+        ], 201);
+    }
 }
