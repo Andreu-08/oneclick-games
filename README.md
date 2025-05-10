@@ -149,6 +149,6 @@ Luego añade una nueva conexión manualmente con estos datos:
 ## 🤝 Contacto
 
 **Andreu Orenga Ramón**  
-📧 andreuorenga@gmial.com
+📧 andreuorenga@gmial.com  
 🎓 2º DAW - Proyecto Fin de Ciclo
 

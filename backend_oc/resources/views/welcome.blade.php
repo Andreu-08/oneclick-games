@@ -63,7 +63,7 @@
         <p>
             Esta API sirve como motor de la aplicación, gestionando usuarios, puntuaciones y rankings de los juegos.
         </p>
-        <div class="tag">v1.0 - Laravel + MySQL</div>
+        <div class="tag">v1.0 - Laravel + Postgres</div>
     </div>
 </body>
 </html>

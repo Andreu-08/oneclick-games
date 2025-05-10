@@ -29,6 +29,11 @@ class Score extends Model
         'meta' => 'array',
     ];
 
+    protected $hidden = [
+        'user_id',
+        'game_id',
+    ];
+
     /**
      * Relación: un score pertenece a un usuario.
      */

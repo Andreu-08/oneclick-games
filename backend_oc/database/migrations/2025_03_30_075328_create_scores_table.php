@@ -23,7 +23,7 @@ return new class extends Migration
             $table->json('meta')->nullable();
             $table->integer('duration')->nullable();
 
-            $table->timestamps(); // created_at y updated_at
+            $table->timestamps();
         });
     }
 

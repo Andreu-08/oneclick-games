@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-   
+
     public function index()
     {
         $users = User::all();
-        return response($users, 200);    
+        return response($users, 200);
     }
 
     /**
@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function create()
     {
-    
+
     }
 
     /**
@@ -35,7 +35,14 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+
+        $user = User::findOrFail($id);
+
+        return response()->json([
+            'id'    => $user->id,
+            'name'  => $user->name,
+            'email' => $user->email,
+        ]);
     }
 
     /**
@@ -57,8 +64,19 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $user = $request->user();
+
+        // Elimina el usuario
+        $user->delete();
+
+        // Revoca el token activo
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Cuenta eliminada correctamente y sesión cerrada.'
+        ]);
     }
+
 }

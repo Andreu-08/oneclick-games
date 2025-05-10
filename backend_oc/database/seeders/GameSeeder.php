@@ -12,6 +12,18 @@ class GameSeeder extends Seeder
      */
     public function run(): void
     {
-        Game::factory()->count(10)->create();
+        Game::create([
+            'title' => 'Juego de Memoria',
+            'description' => 'Encuentra las parejas lo más rápido posible',
+            'is_active' => true,
+            'difficulty_levels' => null,
+        ]);
+
+        Game::create([
+            'title' => 'Juego de Reflejos',
+            'description' => 'Haz clic cuando veas la señal',
+            'is_active' => true,
+            'difficulty_levels' => ['fácil', 'difícil'],
+        ]);
     }
 }
