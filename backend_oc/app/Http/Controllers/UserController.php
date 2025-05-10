@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-   
+
     public function index()
     {
         $users = User::all();
-        return response($users, 200);    
+        return response($users, 200);
     }
 
     /**
@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function create()
     {
-    
+
     }
 
     /**
@@ -35,7 +35,14 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+
+        $user = User::findOrFail($id);
+
+        return response()->json([
+            'id'    => $user->id,
+            'name'  => $user->name,
+            'email' => $user->email,
+        ]);
     }
 
     /**
