@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     libxml2-dev \
     libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+    && docker-php-ext-install pdo pdo_pgsql \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instala Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
