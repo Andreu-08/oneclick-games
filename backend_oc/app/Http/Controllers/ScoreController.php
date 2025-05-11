@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 
 class ScoreController extends Controller
 {
-
-    //funcion para almacenar una puntuacion
+    // Función para almacenar una puntuación
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -34,6 +33,7 @@ class ScoreController extends Controller
         ], 201);
     }
 
+    // Devuelve las puntuaciones de un usuario
     public function userScores($user_id)
     {
         $user = User::findOrFail($user_id);
@@ -46,19 +46,19 @@ class ScoreController extends Controller
         return response()->json([
             'user' => [
                 'id' => $user->id,
-                'name' => $user->name,
+                'nickname' => $user->nickname,
             ],
             'scores' => $scores
         ]);
     }
 
-    //retorna todas las puntuaciones de un juego y quien las hizo
+    // Devuelve todas las puntuaciones de un juego
     public function gameScores($game_id)
     {
         $game = Game::findOrFail($game_id);
 
         $scores = $game->scores()
-            ->with('user:id,name')
+            ->with('user:id,nickname')
             ->orderByDesc('score')
             ->get();
 
@@ -72,13 +72,13 @@ class ScoreController extends Controller
         ]);
     }
 
-    //retorna el top 10 de puntuaciones de un juego
+    // Devuelve el top 10 de puntuaciones de un juego
     public function topScores($id)
     {
         $game = Game::findOrFail($id);
 
         $scores = $game->scores()
-            ->with('user:id,name')
+            ->with('user:id,nickname')
             ->orderByDesc('score')
             ->limit(10)
             ->get();
@@ -93,14 +93,14 @@ class ScoreController extends Controller
         ]);
     }
 
-    //retorna el ranking global sumando las puntuaciones de todos los juegos
+    // Devuelve el ranking global sumando puntuaciones de todos los juegos
     public function globalRanking(Request $request)
     {
         $limit = $request->query('limit', 10);
 
         $ranking = Score::select('user_id')
             ->selectRaw('SUM(score) as total_score')
-            ->with('user:id,name')
+            ->with('user:id,nickname')
             ->groupBy('user_id')
             ->orderByDesc('total_score')
             ->limit($limit)
@@ -108,7 +108,7 @@ class ScoreController extends Controller
             ->map(function ($score) {
                 return [
                     'id' => $score->user->id,
-                    'name' => $score->user->name,
+                    'nickname' => $score->user->nickname,
                     'total_score' => $score->total_score,
                 ];
             });
@@ -117,6 +117,4 @@ class ScoreController extends Controller
             'ranking' => $ranking
         ]);
     }
-
-
 }

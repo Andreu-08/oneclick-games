@@ -3,36 +3,24 @@
     <!-- Fondo desenfocado -->
     <div class="absolute inset-0 bg-[url('@/assets/bg_home.webp')] bg-cover bg-no-repeat bg-center brightness-50"></div>
 
-    <!-- Grid bento principal -->
+    <!-- Grid principal -->
     <div class="relative z-10 w-full max-w-6xl grid grid-rows-[auto_auto] gap-6">
 
-      <!-- FORMULARIO LOGIN / REGISTRO -->
+      <!-- Formulario -->
       <div class="bg-yellow-100 rounded-2xl shadow-xl p-8 min-h-[350px] flex flex-col gap-6 items-center justify-center">
         <h2 class="text-4xl font-extrabold text-center text-blue-900">Accede a OneClick Games</h2>
 
-        <!-- Selector: ya ha jugado o no -->
-        <div class="flex gap-8 text-lg font-semibold">
-          <label class="flex items-center gap-3 cursor-pointer">
-            <input type="radio" v-model="isRegister" :value="false" class="w-5 h-5 accent-blue-600" />
-            <span class="text-blue-800">Ya he jugado</span>
-          </label>
-          <label class="flex items-center gap-3 cursor-pointer">
-            <input type="radio" v-model="isRegister" :value="true" class="w-5 h-5 accent-green-600" />
-            <span class="text-green-800">Nunca he jugado</span>
-          </label>
-        </div>
-
         <!-- Formulario -->
         <form @submit.prevent="submit" class="flex flex-col gap-4 w-full max-w-md">
-          <!-- Nombre -->
+          <!-- Nickname -->
           <input
-            v-model="nombre"
+            v-model="nickname"
             type="text"
-            placeholder="Nombre"
+            placeholder="Nombre de jugador"
             class="p-4 rounded-xl border border-gray-300 text-lg w-full"
             required
-            ref="inputNombre"
-            @focus="setActiveField('nombre')"
+            ref="inputNickname"
+            @focus="setActiveField('nickname')"
           />
 
           <!-- PIN -->
@@ -45,18 +33,6 @@
             required
           />
 
-          <!-- Email (solo si registro) -->
-          <input
-            v-if="isRegister"
-            v-model="email"
-            type="email"
-            placeholder="Email"
-            class="p-4 rounded-xl border border-gray-300 text-lg w-full"
-            required
-            ref="inputEmail"
-            @focus="setActiveField('email')"
-          />
-
           <button
             type="submit"
             class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl py-3 rounded-full focus:outline-none focus:ring-4 focus:ring-blue-400"
@@ -66,9 +42,9 @@
         </form>
       </div>
 
-      <!-- FILA CON TECLADO LETRAS Y NÚMEROS -->
+      <!-- Teclado -->
       <div class="grid grid-cols-5 gap-6 w-full">
-        <!-- TECLADO LETRAS -->
+        <!-- Letras -->
         <div class="col-span-3 bg-green-100 rounded-2xl shadow-xl p-6 min-h-[200px] flex flex-wrap justify-center gap-2">
           <button
             v-for="key in alphabet"
@@ -86,9 +62,9 @@
           </button>
         </div>
 
-        <!-- NÚMEROS PIN -->
-        <div class="col-span-2 bg-blue-100 rounded-2xl shadow-xl p-6 min-h-[200px]">
-          <p class="text-center text-lg">Números del 0 al 9</p>
+        <!-- PIN info -->
+        <div class="col-span-2 bg-blue-100 rounded-2xl shadow-xl p-6 min-h-[200px] flex flex-col items-center justify-center">
+          <p class="text-center text-lg">Introduce tu PIN numérico de 4 dígitos para acceder o registrarte</p>
         </div>
       </div>
     </div>
@@ -98,62 +74,48 @@
 <script setup>
 import { ref, nextTick } from 'vue'
 
-const email = ref('')
-const nombre = ref('')
+const nickname = ref('')
 const pin = ref('')
-const isRegister = ref(false)
 
-const inputNombre = ref(null)
-const inputEmail = ref(null)
-
-const activeField = ref('nombre') // 'nombre' o 'email'
+const inputNickname = ref(null)
+const activeField = ref('nickname')
 
 const setActiveField = (field) => {
   activeField.value = field
   nextTick(() => {
-    if (field === 'nombre' && inputNombre.value) {
-      inputNombre.value.focus()
-    } else if (field === 'email' && inputEmail.value) {
-      inputEmail.value.focus()
+    if (field === 'nickname' && inputNickname.value) {
+      inputNickname.value.focus()
     }
   })
 }
 
 const typeLetter = (letter) => {
-  if (activeField.value === 'nombre' && inputNombre.value) {
-    nombre.value += letter
-    inputNombre.value.focus()
-  } else if (activeField.value === 'email' && inputEmail.value) {
-    email.value += letter
-    inputEmail.value.focus()
+  if (activeField.value === 'nickname' && inputNickname.value) {
+    nickname.value += letter
+    inputNickname.value.focus()
   }
 }
 
 const backspace = () => {
-  if (activeField.value === 'nombre') {
-    nombre.value = nombre.value.slice(0, -1)
-    inputNombre.value?.focus()
-  } else if (activeField.value === 'email') {
-    email.value = email.value.slice(0, -1)
-    inputEmail.value?.focus()
+  if (activeField.value === 'nickname') {
+    nickname.value = nickname.value.slice(0, -1)
+    inputNickname.value?.focus()
   }
 }
 
-const alphabet = 'abcdefghijklmnopqrstuvwxyz@'.split('')
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
-const submit = async () => {
+const submit = () => {
   const payload = {
-    name: nombre.value,
-    pin: pin.value,
-    is_register: isRegister.value,
-    email: isRegister.value ? email.value : null,
+    nickname: nickname.value,
+    pin: pin.value
   }
 
   console.log('Formulario enviado:', payload)
-  // await useUserStore().login(payload)
 }
 </script>
 
+
 <style scoped>
-/* Estilo adicional si lo necesitas */
+/* Estilos adicionales si los necesitas */
 </style>
