@@ -78,4 +78,18 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Display the specified resource by nickname.
+     */
+    public function showByNickname($nickname)
+    {
+        $user = User::where('nickname', $nickname)->first();
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado'], 404);
+        }
+        return response()->json([
+            'id' => $user->id,
+            'nickname' => $user->nickname,
+        ]);
+    }
 }

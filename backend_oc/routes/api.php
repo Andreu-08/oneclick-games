@@ -16,6 +16,7 @@ Route::get('/games/{id}', [GameController::class, 'show']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'show']);
+Route::get('/users/register/{nickname}', [UserController::class, 'showByNickname']);
 
 //Rutas para usuarios autenticados (con token válido)
 Route::middleware('auth:sanctum')->group(function () {

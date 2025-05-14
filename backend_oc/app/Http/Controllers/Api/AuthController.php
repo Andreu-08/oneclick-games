@@ -21,7 +21,7 @@ class AuthController extends Controller
 
         // Buscar usuario por nickname
         $user = User::where('nickname', $request->nickname)->first();
-
+        $wasRegistered = false;
         if ($user) {
             // Intentar iniciar sesión si el usuario existe
             if (!Hash::check($request->pin, $user->pin)) {
@@ -33,6 +33,7 @@ class AuthController extends Controller
                 'nickname' => $request->nickname,
                 'pin'      => Hash::make($request->pin),
             ]);
+            $wasRegistered = true;
         }
 
         // Generar token de sesión
@@ -45,6 +46,7 @@ class AuthController extends Controller
                 'id'       => $user->id,
                 'nickname' => $user->nickname,
             ],
+            'registered'   => $wasRegistered
         ]);
     }
 
