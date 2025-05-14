@@ -46,6 +46,9 @@ import TituloLogin from '@/components/TituloLogin.vue'
 import FormularioLogin from '@/components/FormularioLogin.vue'
 import TecladoAlfabetico from '@/components/TecladoAlfabetico.vue'
 import TecladoNumerico from '@/components/TecladoNumerico.vue'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
+import { userExists } from '@/services/auth'
 
 export default {
   name: 'LoginView',
@@ -62,14 +65,17 @@ export default {
       ALFABETO: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
       NUMEROS: Array.from({ length: 10 }, (_, i) => i),
       LONGITUD_PIN: 4,
-     
-      // Estados reactivos
       nickname: '',
       pin: '',
       errorNickname: '',
       errorPin: '',
       campoActivo: 'nickname',
     }
+  },
+  setup() {
+    const userStore = useUserStore()
+    const router = useRouter()
+    return { userStore, router }
   },
   methods: {
     escribirLetra(letra) {
@@ -101,9 +107,22 @@ export default {
       }
       return !this.errorNickname && !this.errorPin
     },
-    enviarFormulario() {
+    async enviarFormulario() {
       if (!this.validar()) return
-      // Aquí se enviaría el formulario
+      const existe = await userExists(this.nickname)
+      if (!existe) {
+        const confirmar = confirm(`Vas a registrar al usuario: ${this.nickname}\n¿Deseas continuar?`)
+        if (!confirmar) {
+          return
+        }
+      }
+      const result = await this.userStore.login(this.nickname, this.pin)
+      if (result.success) {
+        this.$router.push('/games')
+      } else {
+        // Mostrar error de login
+        this.errorPin = result.message
+      }
     }
   }
 }
