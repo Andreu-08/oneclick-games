@@ -18,23 +18,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'password' => 'password', // será hasheado automáticamente por el modelo
+            'nickname' => $this->faker->unique()->userName(),
             'pin' => 1234,
             'is_admin' => false,
             'remember_token' => Str::random(10),
         ];
-    }
-
-    /**
-     * Indica que el email no está verificado.
-     */
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
     }
 }
 

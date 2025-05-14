@@ -9,28 +9,27 @@
     <div class="relative z-10 flex-1 flex items-center justify-center px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6 w-full max-w-6xl py-12">
         <!-- LOGO -->
-        <div class="bg-white rounded-2xl shadow-xl flex items-center justify-center p-10">
+        <div class="bg-white rounded-2xl shadow-xl flex items-center justify-center p-10 transition-transform duration-300 hover:scale-105">
           <img src="../assets/Logo_oc.png" alt="Logo OneClick Games" class="w-40 h-40 md:w-60 md:h-60 rounded-full" />
         </div>
 
         <!-- TÍTULO (2 columnas en desktop) -->
-        <div class="md:col-span-2 bg-yellow-100 rounded-2xl shadow-xl flex items-center justify-center p-6">
+        <div class="md:col-span-2 bg-yellow-100 rounded-2xl shadow-xl flex items-center justify-center p-6 transition-transform duration-300 hover:scale-105">
           <h1 class="text-4xl md:text-6xl font-extrabold text-center">OneClick Games</h1>
         </div>
 
         <!-- DESCRIPCIÓN + BOTÓN -->
-        <div class="md:col-span-2 bg-green-100 rounded-2xl shadow-xl p-6 flex flex-col items-center justify-center gap-6 text-center">
+        <div class="md:col-span-2 bg-green-100 rounded-2xl shadow-xl p-6 flex flex-col items-center justify-center gap-6 text-center transition-transform duration-300 hover:scale-105">
           <button
             @click="handlePlay"
-            class="bg-blue-600 hover:bg-blue-700 text-white text-3xl md:text-5xl font-extrabold px-12 py-6 md:px-30 md:py-10 rounded-full focus:outline-none focus:ring-4 focus:ring-blue-400 transition-all duration-300"
+            class="bg-blue-600 hover:bg-blue-700 text-white text-3xl md:text-5xl font-extrabold px-12 py-6 md:px-30 md:py-10 rounded-full focus:outline-none focus:ring-4 focus:ring-blue-400 transition-all duration-300 cursor-pointer"
           >
             JUGAR
           </button>
         </div>
 
-        <!-- SLOGAN -->
-        <div class="bg-blue-100 rounded-2xl shadow-xl flex items-center justify-center p-6">
-          <p class="text-2xl md:text-3xl font-bold text-center">¡Diviértete jugando!</p>
+        <div class="bg-blue-100 rounded-2xl shadow-xl flex items-center justify-center p-6 transition-transform duration-300 hover:scale-105">
+          <p class="text-2xl md:text-4xl font-bold text-center">¡Diviértete jugando!</p>
         </div>
       </div>
     </div>

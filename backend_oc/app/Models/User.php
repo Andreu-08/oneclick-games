@@ -19,9 +19,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'nickname',
         'is_admin',
         'pin'
     ];
@@ -37,20 +35,6 @@ class User extends Authenticatable
         'pin',
         'is_admin',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'is_admin' => 'boolean',
-        ];
-    }
 
     /**
      * Relación: un usuario tiene muchas puntuaciones.

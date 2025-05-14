@@ -15,10 +15,8 @@ class UserSeeder extends Seeder
     {
         // Crear un usuario admin fijo
         User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@oneclick',
-            'password' => Hash::make('admin123'), // contraseña por si la usas en futuro
-            'pin' => Hash::make('1234'),          // el pin también debe estar hasheado
+            'nickname' => 'Admin',
+            'pin' => Hash::make('1234'),
             'is_admin' => true,
         ]);
     }

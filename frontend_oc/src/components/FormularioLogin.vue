@@ -13,7 +13,11 @@
           placeholder="Introduce tu nombre"
           class="p-4 rounded-xl border-2 border-blue-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-300 bg-white/80 text-lg w-full transition-all outline-none shadow-inner"
           required
+<<<<<<< HEAD
 
+=======
+          readonly
+>>>>>>> b51c5de841dcf787968a47fac9b5e8963b89c426
           @focus="emitirCampoActivo('nickname')"
           :aria-invalid="errorNickname ? 'true' : 'false'"
         />
