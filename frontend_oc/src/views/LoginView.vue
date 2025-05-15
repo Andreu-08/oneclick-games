@@ -6,8 +6,8 @@
     <!-- Contenido principal -->
     <div class="relative z-10 w-full max-w-6xl flex flex-col gap-6">
 
-      <!-- Logo + título extraído a componente -->
-      <TituloLogin />
+      <!-- Título reutilizable -->
+      <TituloVistas titulo="Accede a los Juegos" />
 
       <!-- Formulario -->
       <FormularioLogin
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import TituloLogin from '@/components/TituloLogin.vue'
+import TituloVistas from '@/components/TituloVistas.vue'
 import FormularioLogin from '@/components/FormularioLogin.vue'
 import TecladoAlfabetico from '@/components/TecladoAlfabetico.vue'
 import TecladoNumerico from '@/components/TecladoNumerico.vue'
@@ -53,23 +53,21 @@ import { userExists } from '@/services/auth'
 export default {
   name: 'LoginView',
   components: {
-    TituloLogin,
+    TituloVistas,
     FormularioLogin,
     TecladoAlfabetico,
     TecladoNumerico
   },
   data() {
     return {
-      
-      // Constantes y textos
-      ALFABETO: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+      ALFABETO: 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split(''),
       NUMEROS: Array.from({ length: 10 }, (_, i) => i),
       LONGITUD_PIN: 4,
       nickname: '',
       pin: '',
       errorNickname: '',
       errorPin: '',
-      campoActivo: 'nickname',
+      campoActivo: 'nickname'
     }
   },
   setup() {
@@ -120,13 +118,9 @@ export default {
       if (result.success) {
         this.$router.push('/games')
       } else {
-        // Mostrar error de login
         this.errorPin = result.message
       }
     }
   }
 }
 </script>
-
-
-

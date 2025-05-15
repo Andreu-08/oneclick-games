@@ -8,10 +8,9 @@
     <!-- Contenido encima -->
     <div class="relative z-10 flex-1 flex items-center justify-center px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6 w-full max-w-6xl py-12">
-        <!-- LOGO -->
-        <div class="bg-white rounded-2xl shadow-xl flex items-center justify-center p-10 transition-transform duration-300 hover:scale-105">
-          <img src="../assets/Logo_oc.png" alt="Logo OneClick Games" class="w-40 h-40 md:w-60 md:h-60 rounded-full" />
-        </div>
+
+        <!-- LOGO extraído a componente -->
+        <IconoHome />
 
         <!-- TÍTULO (2 columnas en desktop) -->
         <div class="md:col-span-2 bg-yellow-100 rounded-2xl shadow-xl flex items-center justify-center p-6 transition-transform duration-300 hover:scale-105">
@@ -36,10 +35,13 @@
   </div>
 </template>
 
-
 <script setup>
+// Vista principal de la aplicación
+// Contiene acceso al juego o login dependiendo del estado de autenticación
+
 import { useRouter } from 'vue-router'
-import { useUserStore } from '../stores/user'
+import { useUserStore } from '@/stores/user'
+import IconoHome from '@/components/IconoHome.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
