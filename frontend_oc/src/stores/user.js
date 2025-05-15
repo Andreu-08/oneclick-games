@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { login as loginApi } from '@/services/auth'
+import { login as loginApi, logout as logoutApi } from '@/services/auth'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -41,12 +41,21 @@ export const useUserStore = defineStore('user', {
     },
 
     /**
-     * Cierra sesión y elimina token y usuario del estado y localStorage
+     * Cierra sesión correctamente
+     * - Llama a la API para invalidar el token
+     * - Limpia el estado y el almacenamiento local
      */
-    logout() {
+    async logout() {
+      try {
+        if (this.token) {
+          await logoutApi(this.token)
+        }
+      } catch (error) {
+        console.warn('Error al cerrar sesión en el backend:', error)
+      }
+
       this.user = null
       this.token = null
-
       localStorage.removeItem('user')
       localStorage.removeItem('token')
     }

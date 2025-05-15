@@ -20,3 +20,11 @@ export const userExists = async (nickname) => {
     throw error
   }
 }
+
+export const logout = async (token) => {
+  await axios.post(`${API_URL}/auth/logout`, {}, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}
