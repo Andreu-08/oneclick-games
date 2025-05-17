@@ -10,17 +10,15 @@
       <div class="flex items-center gap-6 h-32">
 
         <!-- Logo -->
-        <div class="bg-white p-4 rounded-2xl shadow-xl hover:scale-105 transition cursor-pointer h-full aspect-square flex items-center justify-center">
+        <div
+          class="bg-white p-4 rounded-2xl shadow-xl hover:scale-105 transition cursor-pointer h-full aspect-square flex items-center justify-center"
+        >
           <IconoHome width="w-25" height="h-25" padding="p-0" />
         </div>
 
-        <!-- Título -->
-        <div class="flex-1 h-full flex items-center justify-center">
-          <div class="bg-blue-100 rounded-2xl shadow-xl px-12 py-6 w-full h-full flex items-center justify-center">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-800 text-center tracking-wide">
-              Juegos
-            </h1>
-          </div>
+        <!-- Título reutilizable -->
+        <div class=" flex-1 h-full flex items-center justify-center">
+          <TituloVistas :titulo="`JUEGOS DE ${nickname}`" />
         </div>
 
         <!-- Botones -->
@@ -51,20 +49,39 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import IconoHome from '@/components/IconoHome.vue'
+import TituloVistas from '@/components/TituloVistas.vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 
-const userStore = useUserStore()
-const router = useRouter()
-
-const cerrarSesion = async () => {
-  await userStore.logout()
-  router.push('/login')
-}
-
-const abrirRanking = () => {
-  alert('Aquí se abrirá el modal con el ranking global.')
+export default {
+  name: 'GamesView',
+  components: {
+    IconoHome,
+    TituloVistas
+  },
+  data() {
+    return {
+      nickname: ''
+    }
+  },
+  setup() {
+    const userStore = useUserStore()
+    const router = useRouter()
+    return { userStore, router }
+  },
+  mounted() {
+    this.nickname = this.userStore.user.nickname
+  },
+  methods: {
+    async cerrarSesion() {
+      await this.userStore.logout()
+      this.router.push('/login')
+    },
+    abrirRanking() {
+      alert('Aquí se abrirá el modal con el ranking global.')
+    }
+  }
 }
 </script>
