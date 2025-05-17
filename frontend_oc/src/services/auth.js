@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8000/api'
+const API_URL = 'https://oneclick-games.onrender.com/api'
 
 // llamada a la api para el login
 export const login = async (nickname, pin) => {
