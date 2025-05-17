@@ -77,33 +77,33 @@ export default {
     }
   },
   methods: {
-    // Añadir letra al nombre si el campo activo es el nickname
+    // Añade letra al nombre
     escribirLetra(letra) {
       if (this.campoActivo === 'nickname') {
         this.nickname += letra
       }
     },
 
-    // Borrar letra del nombre
+    // Elimina última letra del nombre
     retroceso() {
       if (this.campoActivo === 'nickname') {
         this.nickname = this.nickname.slice(0, -1)
       }
     },
 
-    // Añadir número al PIN
+    // Añade número al PIN
     escribirNumero(numero) {
       if (this.pin.length < this.LONGITUD_PIN) {
         this.pin += numero.toString()
       }
     },
 
-    // Borrar número del PIN
+    // Elimina último número del PIN
     borrarNumero() {
       this.pin = this.pin.slice(0, -1)
     },
 
-    // Validación del formulario
+    // Verifica que el nombre no esté vacío y que el PIN tenga 4 números
     validar() {
       this.errorNickname = ''
       this.errorPin = ''
@@ -119,7 +119,7 @@ export default {
       return !this.errorNickname && !this.errorPin
     },
 
-    // Acción al enviar el formulario
+    // Envía el formulario (login o registro)
     async enviarFormulario() {
       if (!this.validar()) return
 

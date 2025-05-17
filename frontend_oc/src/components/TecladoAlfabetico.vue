@@ -5,7 +5,7 @@
     <button
       v-for="letra in alfabeto"
       :key="letra"
-      class="bg-white text-lg font-bold px-4 py-2 rounded-xl shadow hover:scale-110 transition cursor-pointer"
+      class="bg-white text-lg font-semibold px-4 py-2 rounded-xl shadow hover:scale-110 transition cursor-pointer"
       @click="$emit('tecla', letra)"
     >
       {{ letra }}
@@ -13,7 +13,7 @@
 
     <!-- Botón de retroceso -->
     <button
-      class="bg-red-200 text-lg font-bold px-4 py-2 rounded-xl shadow hover:scale-110 transition cursor-pointer"
+      class="bg-red-200 text-lg font-semibold px-4 py-2 rounded-xl shadow hover:scale-110 transition cursor-pointer"
       @click="$emit('retroceso')"
     >
       ←

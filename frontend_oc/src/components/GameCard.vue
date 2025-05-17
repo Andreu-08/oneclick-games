@@ -2,7 +2,7 @@
   <div class="relative flex flex-col items-start gap-4 rounded-2xl shadow-xl p-6 bg-gradient-to-br from-yellow-100 via-white to-blue-100 border-2 border-blue-200 hover:border-blue-400 w-full min-h-[240px]">
     
     <!-- Título del juego -->
-    <h2 class="font-bold text-2xl text-blue-900">
+    <h2 class="font-semibold text-2xl text-blue-900">
       {{ game.title }}
     </h2>
 
@@ -14,7 +14,7 @@
     <!-- Botón de jugar -->
     <router-link
       :to="`/games/${game.url}`"
-      class="mt-auto px-6 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg text-center self-end"
+      class="mt-auto px-6 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg text-center self-end"
     >
       Jugar
     </router-link>

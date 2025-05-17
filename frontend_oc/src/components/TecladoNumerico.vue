@@ -6,7 +6,7 @@
       <button
         v-for="numero in numeros"
         :key="numero"
-        class="bg-white text-lg font-bold px-4 py-2 rounded-xl shadow hover:scale-110 transition cursor-pointer"
+        class="bg-white text-lg font-semibold px-4 py-2 rounded-xl shadow hover:scale-110 transition cursor-pointer"
         @click="$emit('numero', numero)"
       >
         {{ numero }}
@@ -15,7 +15,7 @@
 
     <!-- Botón borrar -->
     <button
-      class="mt-2 bg-red-200 text-lg font-bold px-6 py-2 rounded-xl shadow hover:scale-110 transition cursor-pointer"
+      class="mt-2 bg-red-200 text-lg font-semibold px-6 py-2 rounded-xl shadow hover:scale-110 transition cursor-pointer"
       @click="$emit('borrar')"
     >
       ←

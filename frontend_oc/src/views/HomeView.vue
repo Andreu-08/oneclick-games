@@ -8,20 +8,20 @@
       <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6 w-full max-w-6xl py-12">
 
         <!-- LOGO extraído a componente -->
-         <div class="hover:scale-105 transition">
-           <IconoHome />
-         </div>
+        <div class="hover:scale-105 transition">
+          <IconoHome />
+        </div>
 
-        <!-- TÍTULO (ocupa 2 columnas) -->
+        <!-- TÍTULO principal -->
         <div class="md:col-span-2 bg-yellow-100 rounded-2xl shadow-xl flex items-center justify-center p-6 hover:scale-105 transition">
-          <h1 class="text-4xl md:text-6xl font-extrabold text-center">OneClick Games</h1>
+          <h1 class="text-4xl md:text-6xl font-semibold text-center">OneClick Games</h1>
         </div>
 
         <!-- BOTÓN principal -->
         <div class="md:col-span-2 bg-green-100 rounded-2xl shadow-xl p-6 flex flex-col items-center justify-center gap-6 text-center hover:scale-105 transition">
           <button
             @click="entrar"
-            class="bg-blue-600 hover:bg-blue-700 hover:scale-105 transition text-white text-3xl md:text-5xl font-extrabold px-12 py-6 md:px-30 md:py-10 rounded-full cursor-pointer"
+            class="bg-blue-600 hover:bg-blue-700 hover:scale-105 transition text-white text-3xl md:text-5xl font-semibold px-12 py-6 md:px-30 md:py-10 rounded-full cursor-pointer"
           >
             JUGAR
           </button>
@@ -29,7 +29,7 @@
 
         <!-- MENSAJE final -->
         <div class="bg-blue-100 rounded-2xl shadow-xl flex items-center justify-center p-6 hover:scale-105 transition">
-          <p class="text-2xl md:text-4xl font-bold text-center">¡Diviértete jugando!</p>
+          <p class="text-2xl md:text-5xl font-semibold text-center">¡Diviértete jugando!</p>
         </div>
 
       </div>
@@ -55,11 +55,7 @@ export default {
   },
   methods: {
     entrar() {
-      if (this.userStore.isAuthenticated) {
-        this.router.push('/games')
-      } else {
-        this.router.push('/login')
-      }
+      this.router.push(this.userStore.isAuthenticated ? '/games' : '/login')
     }
   }
 }

@@ -4,26 +4,43 @@
 
       <!-- Campo de nombre -->
       <div class="flex flex-col gap-1 w-full">
-        <label for="nickname" class="font-bold text-blue-900">Nombre de usuario</label>
-        <input id="nickname" :value="nickname" type="text" placeholder="Introduce tu nombre"
+        <label for="nickname" class="font-semibold text-blue-900">Nombre de usuario</label>
+        <input
+          id="nickname"
+          :value="nickname"
+          type="text"
+          placeholder="Introduce tu nombre"
           class="p-4 rounded-xl border-2 border-blue-200 bg-white text-lg w-full outline-none focus:ring-2 focus:ring-blue-300"
-          required @input="$emit('update:nickname', $event.target.value)" @focus="emitirCampoActivo('nickname')" />
-        <span v-if="errorNickname" class="text-sm text-red-600 font-semibold">{{ errorNickname }}</span>
+          required
+          @input="$emit('update:nickname', $event.target.value)"
+          @focus="emitirCampoActivo('nickname')"
+        />
+        <span v-if="errorNickname" class="text-sm text-red-600">{{ errorNickname }}</span>
       </div>
 
       <!-- Campo PIN -->
       <div class="flex flex-col gap-1 w-full">
-        <label for="pin" class="font-bold text-blue-900">PIN de acceso</label>
-        <input id="pin" :value="pin" @input="actualizarPin($event.target.value)" type="password"
-          :maxlength="LONGITUD_PIN" placeholder="PIN (4 dígitos)"
+        <label for="pin" class="font-semibold text-blue-900">PIN de acceso</label>
+        <input
+          id="pin"
+          :value="pin"
+          @input="actualizarPin($event.target.value)"
+          type="password"
+          :maxlength="LONGITUD_PIN"
+          placeholder="PIN (4 dígitos)"
           class="p-4 rounded-xl border-2 border-blue-200 bg-white text-lg w-full tracking-widest outline-none focus:ring-2 focus:ring-blue-300"
-          required inputmode="numeric" pattern="[0-9]*" />
-        <span v-if="errorPin" class="text-sm text-red-600 font-semibold">{{ errorPin }}</span>
+          required
+          inputmode="numeric"
+          pattern="[0-9]*"
+        />
+        <span v-if="errorPin" class="text-sm text-red-600">{{ errorPin }}</span>
       </div>
 
       <!-- Botón -->
-      <button type="submit"
-        class="bg-blue-600 hover:bg-blue-700 hover:scale-105 transition duration-200 text-white font-bold text-xl py-3 rounded-full w-full cursor-pointer">
+      <button
+        type="submit"
+        class="bg-blue-600 hover:bg-blue-700 hover:scale-105 transition duration-200 text-white font-semibold text-xl py-3 rounded-full w-full cursor-pointer"
+      >
         JUGAR
       </button>
 
