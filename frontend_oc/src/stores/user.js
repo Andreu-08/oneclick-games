@@ -3,35 +3,28 @@ import { login as loginApi, logout as logoutApi } from '@/services/auth'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: JSON.parse(localStorage.getItem('user')) || null,   // Almacena el usuario actual
-    token: localStorage.getItem('token') || null              // Almacena el token JWT
+    user: JSON.parse(localStorage.getItem('user')) || null,
+    token: localStorage.getItem('token') || null
   }),
 
   getters: {
-    /**
-     * Devuelve true si hay token → el usuario está autenticado
-     */
+    // Devuelve true si el usuario tiene sesión iniciada
     isAuthenticated: (state) => !!state.token
   },
 
   actions: {
-    /**
-     * Inicia sesión con nickname y pin
-     * Guarda user y token en el estado y en localStorage
-     */
+    // Inicia sesión y guarda los datos en el estado y localStorage
     async login(nickname, pin) {
       try {
-        const res = await loginApi(nickname, pin)
+        const respuesta = await loginApi(nickname, pin)
 
-        // Actualizar estado
-        this.user = res.user
-        this.token = res.access_token
+        this.user = respuesta.user
+        this.token = respuesta.access_token
 
-        // Guardar en localStorage para mantener sesión tras recarga
-        localStorage.setItem('user', JSON.stringify(res.user))
-        localStorage.setItem('token', res.access_token)
+        localStorage.setItem('user', JSON.stringify(respuesta.user))
+        localStorage.setItem('token', respuesta.access_token)
 
-        return { success: true, registered: res.registered }
+        return { success: true, registered: respuesta.registered }
       } catch (error) {
         return {
           success: false,
@@ -40,22 +33,19 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    /**
-     * Cierra sesión correctamente
-     * - Llama a la API para invalidar el token
-     * - Limpia el estado y el almacenamiento local
-     */
+    // Cierra sesión y limpia el estado
     async logout() {
       try {
         if (this.token) {
           await logoutApi(this.token)
         }
       } catch (error) {
-        console.warn('Error al cerrar sesión en el backend:', error)
+        console.warn('Error al cerrar sesión:', error)
       }
 
       this.user = null
       this.token = null
+
       localStorage.removeItem('user')
       localStorage.removeItem('token')
     }
