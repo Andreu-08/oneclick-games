@@ -1,15 +1,16 @@
 <template>
   <div class="relative min-h-screen flex flex-col items-center justify-center px-4 text-gray-800">
+
     <!-- Fondo -->
     <div class="absolute inset-0 bg-[url('@/assets/bg_home.webp')] bg-cover bg-no-repeat bg-center brightness-50"></div>
 
     <!-- Contenido principal -->
     <div class="relative z-10 w-full max-w-6xl flex flex-col gap-6">
 
-      <!-- Título reutilizable -->
-      <TituloVistas titulo="Accede a los Juegos" />
+      <!-- Título principal -->
+      <TituloVistas titulo="ACCEDE A LOS JUEGOS" />
 
-      <!-- Formulario -->
+      <!-- Formulario de login -->
       <FormularioLogin
         :nickname="nickname"
         :pin="pin"
@@ -24,18 +25,21 @@
 
       <!-- Teclado visual -->
       <div class="grid grid-cols-5 gap-6 w-full">
+
         <!-- Letras -->
         <TecladoAlfabetico
           :alfabeto="ALFABETO"
           @tecla="escribirLetra"
           @retroceso="retroceso"
         />
+
         <!-- Números -->
         <TecladoNumerico
           :numeros="NUMEROS"
           @numero="escribirNumero"
           @borrar="borrarNumero"
         />
+
       </div>
     </div>
   </div>
@@ -67,56 +71,69 @@ export default {
       pin: '',
       errorNickname: '',
       errorPin: '',
-      campoActivo: 'nickname'
+      campoActivo: 'nickname',
+      userStore: useUserStore(),
+      router: useRouter()
     }
   },
-  setup() {
-    const userStore = useUserStore()
-    const router = useRouter()
-    return { userStore, router }
-  },
   methods: {
+    // Añadir letra al nombre si el campo activo es el nickname
     escribirLetra(letra) {
       if (this.campoActivo === 'nickname') {
         this.nickname += letra
       }
     },
+
+    // Borrar letra del nombre
     retroceso() {
       if (this.campoActivo === 'nickname') {
         this.nickname = this.nickname.slice(0, -1)
       }
     },
+
+    // Añadir número al PIN
     escribirNumero(numero) {
       if (this.pin.length < this.LONGITUD_PIN) {
         this.pin += numero.toString()
       }
     },
+
+    // Borrar número del PIN
     borrarNumero() {
       this.pin = this.pin.slice(0, -1)
     },
+
+    // Validación del formulario
     validar() {
       this.errorNickname = ''
       this.errorPin = ''
+
       if (!this.nickname.trim()) {
         this.errorNickname = 'El nombre es obligatorio.'
       }
+
       if (!/^\d{4}$/.test(this.pin)) {
         this.errorPin = 'El PIN debe tener 4 dígitos numéricos.'
       }
+
       return !this.errorNickname && !this.errorPin
     },
+
+    // Acción al enviar el formulario
     async enviarFormulario() {
       if (!this.validar()) return
+
       const existe = await userExists(this.nickname)
+
       if (!existe) {
         const confirmar = confirm(`Vas a registrar al usuario: ${this.nickname}\n¿Deseas continuar?`)
-        if (!confirmar) {
-          return
-        }
+        if (!confirmar) return
       }
+
       const result = await this.userStore.login(this.nickname, this.pin)
+
       if (result.success) {
-        this.$router.push('/games')
+        this.router.push('/games')
       } else {
         this.errorPin = result.message
       }
