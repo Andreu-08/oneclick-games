@@ -4,37 +4,32 @@
     style="background-color: #E8D5F8"
     tabindex="0"
     role="group"
-    :aria-label="`Juego: ${game.title}`"
+    :aria-label="game.title"
   >
-    <!-- Título con fondo suave -->
     <div class="bg-blue-100 rounded-xl px-4 py-2 text-center shadow-sm">
       <h2 class="text-lg font-bold text-blue-900 uppercase">
         {{ game.title }}
       </h2>
     </div>
 
-    <!-- Imagen del juego -->
-    <div class="rounded-xl overflow-hidden  h-[180px]">
-  <img
-    :src="game.image_url"
-    :alt="`Captura del juego ${game.title}`"
-    class="w-full h-full object-contain"
-  />
-</div>
+    <div class="rounded-xl overflow-hidden h-[180px]">
+      <img
+        :src="game.image_url"
+        :alt="`Captura del juego ${game.title}`"
+        class="w-full h-full object-contain"
+      />
+    </div>
 
-    <!-- Descripción con fondo pastel y altura fija -->
     <div
       class="bg-purple-100 rounded-xl px-4 py-4 text-blue-900 text-base font-medium text-center shadow-inner h-[84px] flex items-center justify-center"
     >
       {{ game.description }}
     </div>
 
-    <!-- Botón de acción a ancho completo -->
     <div class="flex justify-center">
       <router-link
         :to="`/games/${game.url}`"
         class="w-full max-w-[300px] py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold transition text-center focus:outline-none focus:ring-4 focus:ring-blue-300"
-        :aria-label="`Jugar a ${game.title}`"
       >
         Jugar
       </router-link>
