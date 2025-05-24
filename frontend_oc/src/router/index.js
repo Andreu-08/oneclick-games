@@ -7,7 +7,9 @@ import { useUserStore } from '@/stores/user'
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/login', name: 'login', component: LoginView },
-  { path: '/games', name: 'games', component: GamesView, meta: { requiresAuth: true } }
+  { path: '/games', name: 'games', component: GamesView, meta: { requiresAuth: true } },
+  {path: '/games/:url', name: 'PlayGame', component: () => import('@/views/GameView.vue')
+}
 ]
 
 const router = createRouter({
