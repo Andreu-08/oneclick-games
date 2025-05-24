@@ -117,4 +117,27 @@ class ScoreController extends Controller
             'ranking' => $ranking
         ]);
     }
+    
+    public function userGlobalRanking(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        // Ranking completo ordenado por puntuación total
+        $ranking = Score::select('user_id')
+            ->selectRaw('SUM(score) as total_score')
+            ->groupBy('user_id')
+            ->orderByDesc('total_score')
+            ->get();
+
+        $position = $ranking->search(fn($row) => $row->user_id == $userId) + 1;
+        $totalScore = $ranking->firstWhere('user_id', $userId)?->total_score ?? 0;
+
+        return response()->json([
+            'id' => $userId,
+            'nickname' => $request->user()->nickname,
+            'total_score' => $totalScore,
+            'position' => $position
+        ]);
+    }
 }
+

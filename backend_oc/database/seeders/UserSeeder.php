@@ -13,11 +13,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear un usuario admin fijo
-        User::factory()->create([
-            'nickname' => 'Admin',
-            'pin' => Hash::make('1234'),
-            'is_admin' => true,
-        ]);
+        foreach (range(1, 50) as $i) {
+            User::create([
+                'nickname' => 'Jugador_' . $i,
+                'pin' => Hash::make('1234'),
+                'is_admin' => false,
+            ]);
+        }
     }
 }

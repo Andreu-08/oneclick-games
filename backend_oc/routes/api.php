@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/scores/game/{game_id}', [ScoreController::class, 'gameScores']);
     Route::get('/scores/game/{id}/top', [ScoreController::class, 'topScores']);
     Route::get('/scores/top', [ScoreController::class, 'globalRanking']);
+    Route::get('/scores/global/me', [ScoreController::class, 'userGlobalRanking']);
 });
 
 //Rutas solo para administradores autenticados
