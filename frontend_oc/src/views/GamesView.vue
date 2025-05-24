@@ -18,7 +18,7 @@
 
         <!-- Título reutilizable -->
         <div class=" flex-1 h-full flex items-center justify-center">
-          <TituloVistas :titulo="`JUEGOS DE ${nickname}`" />
+          <TituloVistas :titulo="`JUEGOS`" />
         </div>
 
         <!-- Botones -->
@@ -40,10 +40,7 @@
         </div>
       </div>
 
-      <!-- Lista de juegos -->
-      <div class="text-xl md:text-2xl text-center text-blue-900 mt-4">
-        Aquí irá la lista de juegos
-      </div>
+      <GameCardList />
 
     </div>
   </div>
@@ -52,6 +49,7 @@
 <script>
 import IconoHome from '@/components/IconoHome.vue'
 import TituloVistas from '@/components/TituloVistas.vue'
+import GameCardList from '@/components/GameCardList.vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 
@@ -59,7 +57,8 @@ export default {
   name: 'GamesView',
   components: {
     IconoHome,
-    TituloVistas
+    TituloVistas,
+    GameCardList
   },
   data() {
     return {

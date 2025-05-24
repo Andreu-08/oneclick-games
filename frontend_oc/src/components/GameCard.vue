@@ -1,27 +1,45 @@
 <template>
-  <div class="relative flex flex-col items-start gap-4 rounded-2xl shadow-xl p-6 bg-gradient-to-br from-yellow-100 via-white to-blue-100 border-2 border-blue-200 hover:border-blue-400 w-full min-h-[240px]">
-    
-    <!-- Título del juego -->
-    <h2 class="font-semibold text-2xl text-blue-900">
-      {{ game.title }}
-    </h2>
+  <article
+    class="flex flex-col gap-4 p-5 rounded-2xl shadow-md w-full max-w-[400px] mx-auto hover:scale-105 hover:shadow-xl transition"
+    style="background-color: #E8D5F8"
+    tabindex="0"
+    role="group"
+    :aria-label="`Juego: ${game.title}`"
+  >
+    <!-- Título con fondo suave -->
+    <div class="bg-blue-100 rounded-xl px-4 py-2 text-center shadow-sm">
+      <h2 class="text-lg font-bold text-blue-900 uppercase">
+        {{ game.title }}
+      </h2>
+    </div>
 
-    <!-- Descripción del juego -->
-    <p class="text-blue-800 text-base flex-1">
-      {{ game.description }}
-    </p>
+    <!-- Imagen del juego -->
+    <div class="rounded-xl overflow-hidden  h-[180px]">
+  <img
+    :src="game.image_url"
+    :alt="`Captura del juego ${game.title}`"
+    class="w-full h-full object-contain"
+  />
+</div>
 
-    <!-- Botón de jugar -->
-    <router-link
-      :to="`/games/${game.url}`"
-      class="mt-auto px-6 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg text-center self-end"
+    <!-- Descripción con fondo pastel y altura fija -->
+    <div
+      class="bg-purple-100 rounded-xl px-4 py-4 text-blue-900 text-base font-medium text-center shadow-inner h-[84px] flex items-center justify-center"
     >
-      Jugar
-    </router-link>
+      {{ game.description }}
+    </div>
 
-    <!-- Capa decorativa para sombra suave -->
-    <div class="absolute inset-0 rounded-2xl pointer-events-none" style="box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);"></div>
-  </div>
+    <!-- Botón de acción a ancho completo -->
+    <div class="flex justify-center">
+      <router-link
+        :to="`/games/${game.url}`"
+        class="w-full max-w-[300px] py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold transition text-center focus:outline-none focus:ring-4 focus:ring-blue-300"
+        :aria-label="`Jugar a ${game.title}`"
+      >
+        Jugar
+      </router-link>
+    </div>
+  </article>
 </template>
 
 <script>
