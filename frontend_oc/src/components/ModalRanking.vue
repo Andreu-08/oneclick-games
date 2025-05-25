@@ -6,7 +6,7 @@
       <div class="flex items-center justify-between mb-4">
         <img src="@/assets/icons/top10.png" alt="Ranking" class="w-12 h-12" />
         <h2 class="text-3xl text-blue-900 text-center flex-1 font-semibold">
-          Top 10
+          {{ title }}
         </h2>
         <img src="@/assets/icons/top10.png" alt="Ranking" class="w-12 h-12" />
       </div>
@@ -15,7 +15,7 @@
       <div v-if="userInfo" class="flex justify-between items-center px-4 py-3 rounded-xl bg-green-100 text-green-900 border border-green-400 mb-4">
         <span class="flex items-center gap-2">
           <img src="@/assets/icons/user.png" alt="Usuario" class="w-5 h-5" />
-          {{ userInfo.nickname.toUpperCase() }}
+          {{ userInfo?.nickname?.toUpperCase?.() || 'Usuario' }}
         </span>
         <span>{{ userInfo.total_score }} pts</span>
       </div>
@@ -50,7 +50,11 @@ export default {
   props: {
     ranking: Array,
     userId: Number,
-    userInfo: Object
+    userInfo: Object,
+    title: {
+      type: String,
+      default: 'Top 10'
+    }
   }
 }
 </script>
