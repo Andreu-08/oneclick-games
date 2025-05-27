@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\Score;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class ScoreController extends Controller
 {
-    // Función para almacenar una puntuación
+    // Almacena una nueva puntuación
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -33,67 +32,7 @@ class ScoreController extends Controller
         ], 201);
     }
 
-    // Devuelve las puntuaciones de un usuario
-    public function userScores($user_id)
-    {
-        $user = User::findOrFail($user_id);
-
-        $scores = Score::where('user_id', $user_id)
-            ->with('game:id,title,url')
-            ->orderByDesc('score')
-            ->get();
-
-        return response()->json([
-            'user' => [
-                'id' => $user->id,
-                'nickname' => $user->nickname,
-            ],
-            'scores' => $scores
-        ]);
-    }
-
-    // Devuelve todas las puntuaciones de un juego
-    public function gameScores($game_id)
-    {
-        $game = Game::findOrFail($game_id);
-
-        $scores = $game->scores()
-            ->with('user:id,nickname')
-            ->orderByDesc('score')
-            ->get();
-
-        return response()->json([
-            'game' => [
-                'id' => $game->id,
-                'title' => $game->title,
-                'url' => $game->url,
-            ],
-            'scores' => $scores
-        ]);
-    }
-
-    // Devuelve el top 10 de puntuaciones de un juego
-    public function topScores($id)
-    {
-        $game = Game::findOrFail($id);
-
-        $scores = $game->scores()
-            ->with('user:id,nickname')
-            ->orderByDesc('score')
-            ->limit(10)
-            ->get();
-
-        return response()->json([
-            'game' => [
-                'id' => $game->id,
-                'title' => $game->title,
-                'url' => $game->url,
-            ],
-            'top_scores' => $scores
-        ]);
-    }
-
-    // Devuelve el ranking global sumando puntuaciones de todos los juegos
+    // Ranking global (sumando puntuaciones de todos los juegos)
     public function globalRanking(Request $request)
     {
         $limit = $request->query('limit', 10);
@@ -115,6 +54,70 @@ class ScoreController extends Controller
 
         return response()->json([
             'ranking' => $ranking
+        ]);
+    }
+
+    // Ranking global del usuario actual
+    public function userGlobalRanking(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        $ranking = Score::select('user_id')
+            ->selectRaw('SUM(score) as total_score')
+            ->groupBy('user_id')
+            ->orderByDesc('total_score')
+            ->get();
+
+        $position = $ranking->search(fn($row) => $row->user_id == $userId) + 1;
+        $totalScore = $ranking->firstWhere('user_id', $userId)?->total_score ?? 0;
+
+        return response()->json([
+            'id' => $userId,
+            'nickname' => $request->user()->nickname,
+            'total_score' => $totalScore,
+            'position' => $position
+        ]);
+    }
+
+    // Ranking del juego: Top 10 usuarios con mayor puntuación sumada en ese juego
+    public function gameRanking($id)
+    {
+        $game = Game::findOrFail($id);
+
+        $ranking = Score::where('game_id', $game->id)
+            ->select('user_id')
+            ->selectRaw('SUM(score) as total_score')
+            ->with('user:id,nickname')
+            ->groupBy('user_id')
+            ->orderByDesc('total_score')
+            ->limit(10)
+            ->get()
+            ->map(function ($entry) {
+                return [
+                    'id' => $entry->user->id,
+                    'nickname' => $entry->user->nickname,
+                    'total_score' => $entry->total_score,
+                ];
+            });
+
+        return response()->json([
+            'ranking' => $ranking
+        ]);
+    }
+
+    // Puntuación total del usuario logueado en un juego concreto
+    public function userGameRanking(Request $request, $gameId)
+    {
+        $userId = $request->user()->id;
+
+        $totalScore = Score::where('user_id', $userId)
+            ->where('game_id', $gameId)
+            ->sum('score');
+
+        return response()->json([
+            'id' => $userId,
+            'nickname' => $request->user()->nickname,
+            'total_score' => $totalScore,
         ]);
     }
 }

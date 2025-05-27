@@ -17,9 +17,11 @@ class Game extends Model
     protected $fillable = [
         'title',
         'description',
-        'is_active',
+        'image_url',
         'difficulty_levels',
+        'is_active',
     ];
+
 
     /**
      * Casts para convertir datos automáticamente.

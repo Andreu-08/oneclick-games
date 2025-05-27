@@ -11,7 +11,7 @@ class GameController extends Controller
     public function index()
     {
         $games = Game::where('is_active', true)
-            ->select('id', 'title', 'description', 'url', 'difficulty_levels')
+            ->select('id', 'title', 'description', 'url', 'difficulty_levels', 'image_url')
             ->get();
 
         return response()->json($games);

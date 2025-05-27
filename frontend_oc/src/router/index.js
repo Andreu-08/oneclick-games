@@ -4,25 +4,20 @@ import LoginView from '@/views/LoginView.vue'
 import GamesView from '@/views/GamesView.vue'
 import { useUserStore } from '@/stores/user'
 
-// Definición de rutas
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/login', name: 'login', component: LoginView },
-  {
-    path: '/games',
-    name: 'games',
-    component: GamesView,
-    meta: { requiresAuth: true } // Esta ruta requiere autenticación
-  }
+  { path: '/games', name: 'games', component: GamesView, meta: { requiresAuth: true } },
+  {path: '/games/:url', name: 'PlayGame', component: () => import('@/views/GameView.vue')
+}
 ]
 
-// Configuración del router con historial HTML5
 const router = createRouter({
   history: createWebHistory(),
   routes
 })
 
-// Guard global de navegación para proteger rutas con meta.requiresAuth
+// Si la ruta necesita estar logueado y no lo está, redirige al login
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
 
