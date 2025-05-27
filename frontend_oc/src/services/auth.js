@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8000/api'
+const API_URL = import.meta.env.VITE_API_URL
 
 // Iniciar sesión con nombre y PIN
 export const login = async (nickname, pin) => {
