@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WordController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +14,8 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 // Rutas públicas para juegos y validación de nickname
 Route::get('/games', [GameController::class, 'index']);
 Route::get('/games/{id}', [GameController::class, 'show']);
-Route::get('/users/register/{nickname}', [UserController::class, 'showByNickname']); 
+Route::get('/palabra', [WordController::class, 'getRandom']);
+Route::get('/users/register/{nickname}', [UserController::class, 'showByNickname']);
 
 // Rutas protegidas para usuarios autenticados
 Route::middleware('auth:sanctum')->group(function () {

@@ -2,6 +2,29 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:8000/api'
 
+/*
+  LLAMADAS A LA API PARA ALMACENAR PUNTUACIONES
+*/
+export const guardarPuntuacion = async (gameId, score, token) => {
+  const respuesta = await axios.post(
+    'http://localhost:8000/api/scores',
+    {
+      game_id: gameId,
+      score: score
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  )
+  return respuesta.data
+}
+
+/*
+  LLAMADAS A LA API PARA LOS RANKINGS
+*/
+
 // 🔹 Devuelve el ranking global con los 10 usuarios con mayor puntuación total
 export const getGlobalRanking = async () => {
   const token = localStorage.getItem('token')
