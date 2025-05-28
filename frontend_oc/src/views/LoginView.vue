@@ -17,15 +17,14 @@
         :errorNickname="errorNickname"
         :errorPin="errorPin"
         :LONGITUD_PIN="LONGITUD_PIN"
-        @update:nickname="nickname = $event"
+        @update:nickname="nickname = $event.toUpperCase()"
         @update:pin="pin = $event"
         @enviarFormulario="enviarFormulario"
         @establecerCampoActivo="campoActivo = $event"
       />
 
       <!-- Teclado visual -->
-      <div class="grid grid-cols-5 gap-6 w-full">
-
+      <div class="grid grid-cols-5 gap-6 w-full hidden md:grid">
         <!-- Letras -->
         <TecladoAlfabetico
           :alfabeto="ALFABETO"
@@ -39,9 +38,16 @@
           @numero="escribirNumero"
           @borrar="borrarNumero"
         />
-
       </div>
     </div>
+
+    <!-- Modal de confirmación -->
+    <ModalConfirmacion
+      v-if="modalConfirmacion"
+      :nickname="nickname"
+      @cancelar="cancelarConfirmacion"
+      @confirmar="confirmarRegistro"
+    />
   </div>
 </template>
 
@@ -50,6 +56,8 @@ import TituloVistas from '@/components/TituloVistas.vue'
 import FormularioLogin from '@/components/FormularioLogin.vue'
 import TecladoAlfabetico from '@/components/TecladoAlfabetico.vue'
 import TecladoNumerico from '@/components/TecladoNumerico.vue'
+import ModalConfirmacion from '@/components/modales/ModalConfirmacion.vue'
+
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { userExists } from '@/services/auth'
@@ -60,7 +68,8 @@ export default {
     TituloVistas,
     FormularioLogin,
     TecladoAlfabetico,
-    TecladoNumerico
+    TecladoNumerico,
+    ModalConfirmacion
   },
   data() {
     return {
@@ -73,37 +82,34 @@ export default {
       errorPin: '',
       campoActivo: 'nickname',
       userStore: useUserStore(),
-      router: useRouter()
+      router: useRouter(),
+      modalConfirmacion: false,
+      intentoLogin: false
     }
   },
   methods: {
-    // Añade letra al nombre
     escribirLetra(letra) {
       if (this.campoActivo === 'nickname') {
-        this.nickname += letra
+        this.nickname += letra.toUpperCase()
       }
     },
 
-    // Elimina última letra del nombre
     retroceso() {
       if (this.campoActivo === 'nickname') {
         this.nickname = this.nickname.slice(0, -1)
       }
     },
 
-    // Añade número al PIN
     escribirNumero(numero) {
       if (this.pin.length < this.LONGITUD_PIN) {
         this.pin += numero.toString()
       }
     },
 
-    // Elimina último número del PIN
     borrarNumero() {
       this.pin = this.pin.slice(0, -1)
     },
 
-    // Verifica que el nombre no esté vacío y que el PIN tenga 4 números
     validar() {
       this.errorNickname = ''
       this.errorPin = ''
@@ -119,23 +125,39 @@ export default {
       return !this.errorNickname && !this.errorPin
     },
 
-    // Envía el formulario (login o registro)
     async enviarFormulario() {
       if (!this.validar()) return
 
       const existe = await userExists(this.nickname)
 
       if (!existe) {
-        const confirmar = confirm(`Vas a registrar al usuario: ${this.nickname}\n¿Deseas continuar?`)
-        if (!confirmar) return
+        this.modalConfirmacion = true
+        this.intentoLogin = true
+        return
       }
 
+      this.realizarLogin()
+    },
+
+    async realizarLogin() {
       const result = await this.userStore.login(this.nickname, this.pin)
 
       if (result.success) {
         this.router.push('/games')
       } else {
         this.errorPin = result.message
+      }
+    },
+
+    cancelarConfirmacion() {
+      this.modalConfirmacion = false
+      this.intentoLogin = false
+    },
+
+    confirmarRegistro() {
+      this.modalConfirmacion = false
+      if (this.intentoLogin) {
+        this.realizarLogin()
       }
     }
   }

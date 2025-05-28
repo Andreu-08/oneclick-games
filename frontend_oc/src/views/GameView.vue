@@ -41,7 +41,11 @@
 
       <!-- Carga del componente de juego -->
       <div v-if="game">
-        <OrdenarPalabras v-if="game.url === 'ordenar-palabras'" :juego="game" />
+        <OrdenarPalabras
+          v-if="game.url === 'ordenar-palabras'"
+          :juego="game"
+          @finJuego="mostrarFinJuego"
+        />
         <!-- Aquí puedes añadir más juegos con v-if -->
       </div>
 
@@ -57,6 +61,14 @@
         :title="'Top 10 - ' + game.title"
         @close="showRanking = false"
       />
+
+      <!-- Modal fin del juego -->
+      <ModalFinJuego
+        v-if="modalFin"
+        :puntuacion="puntosObtenidos"
+        @reiniciar="reiniciarJuego"
+        @salir="salirJuego"
+      />
     </div>
   </div>
 </template>
@@ -65,10 +77,11 @@
 import IconoHome from '@/components/IconoHome.vue'
 import TituloVistas from '@/components/TituloVistas.vue'
 import OrdenarPalabras from '@/components/games/OrdenarPalabras.vue'
-import ModalRanking from '@/components/ModalRanking.vue'
+import ModalRanking from '@/components/modales/ModalRanking.vue'
+import ModalFinJuego from '@/components/modales/ModalFinJuego.vue'
 
 import { getGames } from '@/services/games.js'
-import { getGameTopScores, getMyGameRanking } from '@/services/scores.js'
+import { getGameTopScores, getMyGameRanking, guardarPuntuacion } from '@/services/scores.js'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 
@@ -78,14 +91,17 @@ export default {
     IconoHome,
     TituloVistas,
     OrdenarPalabras,
-    ModalRanking
+    ModalRanking,
+    ModalFinJuego
   },
   data() {
     return {
       game: null,
       showRanking: false,
       ranking: [],
-      userRanking: null
+      userRanking: null,
+      modalFin: false,
+      puntosObtenidos: 0
     }
   },
   setup() {
@@ -114,6 +130,30 @@ export default {
     },
     salirJuego() {
       this.router.push('/games')
+    },
+    async mostrarFinJuego(puntos) {
+      this.puntosObtenidos = puntos
+      this.modalFin = true
+      
+      //si la puntuación es 0 no la amacenamos 
+      if (puntos === 0) {
+      console.log('No se guarda puntuación porque el resultado fue 0.')
+      return
+      }
+
+      try {
+        await guardarPuntuacion(this.game.id, puntos)
+      } catch (err) {
+        console.error('Error al guardar puntuación:', err)
+      }
+    },
+    async reiniciarJuego() {
+      this.modalFin = false
+      this.game = null
+      this.$nextTick(async () => {
+        const games = await getGames()
+        this.game = games.find(g => g.url === this.route.params.url)
+      })
     }
   }
 }
