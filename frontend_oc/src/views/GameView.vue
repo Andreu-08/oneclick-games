@@ -10,30 +10,23 @@
       <div class="flex items-center gap-6 h-32">
         <!-- Icono home -->
         <div
-          class="bg-white p-4 rounded-2xl shadow-xl hover:scale-105 transition cursor-pointer h-full aspect-square flex items-center justify-center"
-        >
+          class="bg-white p-4 rounded-2xl shadow-xl hover:scale-105 transition cursor-pointer h-full aspect-square flex items-center justify-center">
           <IconoHome width="w-25" height="h-25" padding="p-0" />
         </div>
 
         <!-- Título del juego -->
         <div class="flex-1 h-full flex items-center justify-center">
-          <TituloVistas :titulo="game?.title?.toUpperCase() || 'CARGANDO...'" />
+          <TituloVistas :titulo="game?.title?.toUpperCase() || 'CARGANDO JUEGO'" />
         </div>
 
         <!-- Botones de acción -->
         <div class="h-full flex items-center gap-4">
-          <button
-            @click="abrirRanking"
-            title="Ver ranking del juego"
-            class="bg-white p-4 rounded-2xl shadow-xl hover:scale-105 transition cursor-pointer h-full aspect-square flex items-center justify-center"
-          >
+          <button @click="abrirRanking" title="Ver ranking del juego"
+            class="bg-white p-4 rounded-2xl shadow-xl hover:scale-105 transition cursor-pointer h-full aspect-square flex items-center justify-center">
             <img src="@/assets/icons/ranking.png" alt="Ranking" class="w-18 h-18" />
           </button>
-          <button
-            @click="salirJuego"
-            title="Volver"
-            class="bg-white p-4 rounded-2xl shadow-xl hover:scale-105 transition cursor-pointer h-full aspect-square flex items-center justify-center"
-          >
+          <button @click="salirJuego" title="Volver"
+            class="bg-white p-4 rounded-2xl shadow-xl hover:scale-105 transition cursor-pointer h-full aspect-square flex items-center justify-center">
             <img src="@/assets/icons/logout.png" alt="Salir" class="w-18 h-18" />
           </button>
         </div>
@@ -41,34 +34,27 @@
 
       <!-- Carga del componente de juego -->
       <div v-if="game">
-        <OrdenarPalabras
-          v-if="game.url === 'ordenar-palabras'"
-          :juego="game"
-          @finJuego="mostrarFinJuego"
-        />
+        <OrdenarPalabras v-if="game.url === 'ordenar-palabras'" :juego="game" @finJuego="mostrarFinJuego" />
         <!-- Aquí puedes añadir más juegos con v-if -->
       </div>
 
-      <!-- Mensaje si no se carga el juego -->
-      <p v-else class="text-white text-lg text-center">Cargando juego...</p>
+      <!-- JUEGO CARGANDO -->
+      <div v-else class="flex justify-center items-center min-h-[400px]">
+        <svg class="animate-spin h-40 w-40 text-blue-800" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+        </svg>
+      </div>
+
 
       <!-- Modal del ranking -->
-      <ModalRanking
-        v-if="showRanking"
-        :ranking="ranking"
-        :userId="userStore.user.id"
-        :userInfo="userRanking"
-        :title="'Top 10 - ' + game.title"
-        @close="showRanking = false"
-      />
+      <ModalRanking v-if="showRanking" :ranking="ranking" :userId="userStore.user.id" :userInfo="userRanking"
+        :title="'Top 10 - ' + game.title" :cargando="cargandoRanking" @close="showRanking = false" />
+
 
       <!-- Modal fin del juego -->
-      <ModalFinJuego
-        v-if="modalFin"
-        :puntuacion="puntosObtenidos"
-        @reiniciar="reiniciarJuego"
-        @salir="salirJuego"
-      />
+      <ModalFinJuego v-if="modalFin" :puntuacion="puntosObtenidos" @reiniciar="reiniciarJuego" @salir="salirJuego" />
     </div>
   </div>
 </template>
@@ -101,7 +87,8 @@ export default {
       ranking: [],
       userRanking: null,
       modalFin: false,
-      puntosObtenidos: 0
+      puntosObtenidos: 0,
+      cargandoRanking: false
     }
   },
   setup() {
@@ -116,18 +103,23 @@ export default {
   },
   methods: {
     async abrirRanking() {
-      try {
-        const [ranking, me] = await Promise.all([
-          getGameTopScores(this.game.id),
-          getMyGameRanking(this.game.id)
-        ])
-        this.ranking = ranking
-        this.userRanking = me
-        this.showRanking = true
-      } catch (err) {
-        console.error('Error al cargar el ranking del juego:', err)
-      }
-    },
+  this.showRanking = true
+  this.cargandoRanking = true
+
+  try {
+    // Simulación de carga lenta para ver el skeleton
+    const [ranking, me] = await Promise.all([
+      getGameTopScores(this.game.id),
+      getMyGameRanking(this.game.id)
+    ])
+    this.ranking = ranking
+    this.userRanking = me
+  } catch (err) {
+    console.error('Error al cargar el ranking del juego:', err)
+  } finally {
+    this.cargandoRanking = false
+  }
+},
     salirJuego() {
       this.router.push('/games')
     },

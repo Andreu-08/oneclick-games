@@ -5,20 +5,14 @@
 
     <!-- Contenido principal -->
     <div class="relative z-10 w-full px-4 md:px-8 pt-10 pb-4 flex flex-col gap-8">
-
       <!-- Cabecera -->
       <div class="flex items-center gap-6 h-32">
-        <!-- Logo -->
         <div class="bg-white p-4 rounded-2xl shadow-xl h-full aspect-square flex items-center justify-center hover:scale-105 transition">
           <IconoHome width="w-25" height="h-25" padding="p-0" />
         </div>
-
-        <!-- Título -->
         <div class="flex-1 h-full flex items-center justify-center">
           <TituloVistas :titulo="'JUEGOS'" />
         </div>
-
-        <!-- Botones -->
         <div class="h-full flex items-center gap-4">
           <button @click="abrirRanking" title="Ver ranking global"
             class="bg-white p-4 rounded-2xl shadow-xl h-full aspect-square flex items-center justify-center hover:scale-105 transition cursor-pointer">
@@ -34,9 +28,15 @@
       <!-- Lista de juegos -->
       <GameCardList />
 
-      <!-- Modal de Ranking Global se abre al presionar el ranking -->
-      <ModalRanking v-if="showRanking" :ranking="ranking" :userId="userStore.user.id" :userInfo="userRanking"
-        @close="showRanking = false" />
+      <!-- Modal ranking -->
+      <ModalRanking
+        v-if="showRanking"
+        :ranking="ranking"
+        :userId="userStore.user.id"
+        :userInfo="userRanking"
+        :cargando="cargandoRanking"
+        @close="showRanking = false"
+      />
     </div>
   </div>
 </template>
@@ -62,7 +62,8 @@ export default {
     return {
       showRanking: false,
       ranking: [],
-      userRanking: null
+      userRanking: null,
+      cargandoRanking: false // ⬅️ NUEVO: estado para mostrar skeleton
     }
   },
   setup() {
@@ -76,6 +77,9 @@ export default {
       this.router.push('/login')
     },
     async abrirRanking() {
+      this.showRanking = true
+      this.cargandoRanking = true // Activamos el skeleton
+
       try {
         const [top, me] = await Promise.all([
           getGlobalRanking(),
@@ -83,9 +87,10 @@ export default {
         ])
         this.ranking = top
         this.userRanking = me
-        this.showRanking = true
       } catch (error) {
         console.error('Error al cargar el ranking:', error)
+      } finally {
+        this.cargandoRanking = false
       }
     }
   }
