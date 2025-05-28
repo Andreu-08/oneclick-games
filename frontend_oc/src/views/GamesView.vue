@@ -45,7 +45,7 @@
 import IconoHome from '@/components/IconoHome.vue'
 import TituloVistas from '@/components/TituloVistas.vue'
 import GameCardList from '@/components/GameCardList.vue'
-import ModalRanking from '@/components/ModalRanking.vue'
+import ModalRanking from '@/components/modales/ModalRanking.vue'
 import { getGlobalRanking, getMyGlobalRanking } from '@/services/scores.js'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'

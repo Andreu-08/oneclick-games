@@ -65,7 +65,7 @@
 import IconoHome from '@/components/IconoHome.vue'
 import TituloVistas from '@/components/TituloVistas.vue'
 import OrdenarPalabras from '@/components/games/OrdenarPalabras.vue'
-import ModalRanking from '@/components/ModalRanking.vue'
+import ModalRanking from '@/components/modales/ModalRanking.vue'
 
 import { getGames } from '@/services/games.js'
 import { getGameTopScores, getMyGameRanking } from '@/services/scores.js'
