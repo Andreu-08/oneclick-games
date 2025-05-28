@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
+  <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4 ">
     <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-2xl border border-blue-100">
       
       <!-- Título -->
@@ -27,7 +27,7 @@
             'flex justify-between items-center px-4 py-3 rounded-xl',
             entry.id === userId
               ? 'bg-blue-100 text-blue-900 font-semibold border border-blue-300'
-              : 'bg-purple-50 text-blue-800'
+              : 'bg-fuchsia-50 text-blue-800'
           ]">
           <span>#{{ index + 1 }} - {{ entry.nickname.toUpperCase() }}</span>
           <span>{{ entry.total_score }} pts</span>

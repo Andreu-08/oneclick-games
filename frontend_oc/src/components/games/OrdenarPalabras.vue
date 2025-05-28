@@ -1,42 +1,72 @@
 <template>
-  <div class="text-white text-center mt-8 px-4">
-    <div class="mb-6 text-2xl font-bold flex justify-between items-center px-4">
-      <span class="text-green-300">Puntos: {{ puntos }}</span>
-      <span class="text-red-400">Vidas: {{ vidas }}</span>
-    </div>
+  <div class="relative min-h-screen flex flex-col justify-start items-center px-4 pt-10 text-white">
 
-    <div class="flex flex-wrap justify-center gap-4 mb-6">
-      <button
-        v-for="(letra, i) in letrasDesordenadas"
-        :key="i"
-        @click="elegirLetra(i)"
-        :disabled="letrasElegidas.includes(i)"
-        class="bg-blue-600 text-white text-2xl px-6 py-3 rounded-2xl hover:bg-blue-700 disabled:opacity-40 shadow-md"
-      >
-        {{ letra }}
-      </button>
-    </div>
+    <!-- Fondo desenfocado -->
+    <div class="absolute inset-0 bg-[url('@/assets/bg_home.webp')] bg-cover bg-center brightness-50"></div>
 
-    <div class="flex justify-center gap-3 mb-6 text-3xl font-extrabold font-mono tracking-wide">
-      <span
-        v-for="(letra, i) in palabraUsuario"
-        :key="'letra' + i"
-        class="border-b-4 border-blue-400 pb-1"
-      >
-        {{ letra }}
-      </span>
-    </div>
+    <!-- Contenedor principal -->
+    <div class="relative z-10 w-full max-w-3xl flex flex-col gap-8 items-center">
 
-    <div class="mb-4">
-      <button
-        @click="borrarIntento"
-        class="bg-yellow-500 text-white text-xl px-6 py-3 rounded-xl hover:bg-yellow-600 shadow"
-      >
-        Borrar intento
-      </button>
-    </div>
+      <!-- 🔢 Puntos y ❤️ Vidas -->
+      <div class="flex justify-between w-full items-center px-4">
+        <div class="flex items-center gap-2 text-green-300 text-6xl font-bold">
+          <img src="@/assets/icons/star.png" alt="Puntos" class="w-12 h-12" />
+          {{ puntos }}
+        </div>
+        <div class="flex items-center gap-2 text-red-400 text-6xl font-bold">
+          {{ vidas }}
+          <img src="@/assets/icons/heart.png" alt="Vidas" class="w-15 h-15" />
+        </div>
+      </div>
 
-    <p class="text-lg font-semibold min-h-[2rem]">{{ mensaje }}</p>
+      <!-- 🔡 Letras desordenadas -->
+      <div class="flex flex-wrap justify-center gap-4 bg-purple-400 p-6 rounded-2xl shadow-inner w-full">
+        <button
+          v-for="(letra, i) in letrasDesordenadas"
+          :key="i"
+          @click="elegirLetra(i)"
+          :disabled="letrasElegidas.includes(i)"
+          class="bg-purple-800 text-white text-4xl uppercase px-6 py-4 rounded-2xl hover:bg-purple-700 disabled:opacity-40 transition shadow-md min-w-[70px] cursor-pointer"
+        >
+          {{ letra }}
+        </button>
+      </div>
+
+      <!-- 🧩 Palabra formada -->
+      <div class="flex justify-center gap-4 text-4xl font-extrabold font-mono tracking-widest">
+        <span
+          v-for="(letra, i) in palabraUsuario"
+          :key="'letra' + i"
+          class="uppercase border-b-4 border-blue-300 pb-2 w-12 text-center font-semibold"
+        >
+          {{ letra }}
+        </span>
+      </div>
+
+      <!-- 🎮 Botones de acción estilo bento -->
+      <div class="flex flex-wrap justify-center gap-10">
+        <!-- Botón: borrar intento -->
+        <button
+          @click="borrarIntento"
+          class="bg-amber-400 hover:bg-amber-500 text-white text-lg font-semibold px-6 py-3 rounded-xl transition min-w-[160px] shadow-md"
+        >
+          Borrar intento
+        </button>
+
+        <!-- Botón: siguiente palabra -->
+        <button
+          @click="siguientePalabra"
+          class="bg-rose-500 hover:bg-rose-600 text-white text-lg font-semibold px-6 py-3 rounded-xl transition min-w-[160px] shadow-md"
+        >
+          Siguiente palabra
+        </button>
+      </div>
+
+      <!-- 💬 Mensaje -->
+      <p class="text-center text-lg font-semibold min-h-[2rem]">
+        {{ mensaje }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -45,6 +75,7 @@ import { getPalabraAleatoria } from '@/services/games'
 
 export default {
   name: 'OrdenarPalabrasView',
+  emits: ['finJuego'],
   data() {
     return {
       palabraCorrecta: '',
@@ -53,23 +84,36 @@ export default {
       letrasElegidas: [],
       mensaje: '',
       puntos: 0,
-      vidas: 10
+      vidas: 5
     }
   },
   mounted() {
     this.cargarPalabra()
   },
   methods: {
+    // 🔄 Carga una nueva palabra válida de hasta 5 letras
     async cargarPalabra() {
       this.borrarIntento()
       try {
-        const palabra = await getPalabraAleatoria()
-        this.palabraCorrecta = palabra.toLowerCase()
-        this.letrasDesordenadas = this.palabraCorrecta.split('').sort(() => Math.random() - 0.5)
+        let palabraValida = ''
+        do {
+          const palabra = await getPalabraAleatoria()
+          if (palabra.length <= 5) {
+            palabraValida = palabra.toLowerCase()
+          }
+        } while (!palabraValida)
+
+        this.palabraCorrecta = palabraValida
+        this.letrasDesordenadas = this.palabraCorrecta
+          .split('')
+          .sort(() => Math.random() - 0.5)
+
       } catch (error) {
         this.mensaje = 'No se pudo cargar la palabra'
       }
     },
+
+    // 🖱️ Añade la letra seleccionada
     elegirLetra(posicion) {
       this.palabraUsuario.push(this.letrasDesordenadas[posicion])
       this.letrasElegidas.push(posicion)
@@ -86,22 +130,35 @@ export default {
 
         setTimeout(() => {
           if (this.vidas === 0) {
-            alert(`Juego terminado. Has conseguido ${this.puntos} puntos.`)
-            this.reiniciarJuego()
+            this.$emit('finJuego', this.puntos)
           } else {
             this.cargarPalabra()
           }
         }, 1500)
       }
     },
+
+    // 🔙 Borra el intento actual
     borrarIntento() {
       this.palabraUsuario = []
       this.letrasElegidas = []
       this.mensaje = ''
     },
+
+    // ⏭️ Cambia de palabra, restando una vida
+    siguientePalabra() {
+      this.vidas--
+      if (this.vidas === 0) {
+        this.$emit('finJuego', this.puntos)
+      } else {
+        this.cargarPalabra()
+      }
+    },
+
+    // 🔁 Reinicia el juego completo
     reiniciarJuego() {
       this.puntos = 0
-      this.vidas = 10
+      this.vidas = 5
       this.cargarPalabra()
     }
   }
