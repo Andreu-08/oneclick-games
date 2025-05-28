@@ -36,18 +36,25 @@
         <span v-if="errorPin" class="text-sm text-red-600">{{ errorPin }}</span>
       </div>
 
-      <!-- Botón -->
+      <!-- Botón con spinner -->
       <button
         type="submit"
-        class="bg-blue-600 hover:bg-blue-700 hover:scale-105 transition duration-200 text-white font-semibold text-xl py-3 rounded-full w-full cursor-pointer"
+        class="bg-blue-600 hover:bg-blue-700 transition duration-200 text-white font-semibold text-xl py-3 rounded-full w-full cursor-pointer flex items-center justify-center gap-2"
+        :disabled="cargando"
       >
-        JUGAR
+        <span v-if="!cargando">JUGAR</span>
+        <svg v-else class="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+        </svg>
       </button>
 
     </form>
   </div>
 </template>
-
+<!-- FormularioLogin.vue -->
 <script>
 export default {
   name: 'FormularioLogin',
@@ -56,7 +63,8 @@ export default {
     pin: String,
     errorNickname: String,
     errorPin: String,
-    LONGITUD_PIN: Number
+    LONGITUD_PIN: Number,
+    cargando: Boolean
   },
   methods: {
     actualizarPin(valor) {
@@ -71,3 +79,4 @@ export default {
   }
 }
 </script>
+
