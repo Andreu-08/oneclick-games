@@ -7,3 +7,4 @@ Route::get('/', function () {
 });
 
 
+Route::view('/docs', 'documentacion-api');
