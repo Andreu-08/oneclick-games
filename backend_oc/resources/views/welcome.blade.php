@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +29,7 @@
             background-color: #1e293b;
             padding: 2rem;
             border-radius: 16px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         }
 
         h1 {
@@ -54,16 +55,22 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container" role="main">
         <h1>OneClick Games API 🎮</h1>
         <p>
-            Bienvenido a la API oficial de <strong>OneClick Games</strong>, la plataforma web de juegos accesibles y sencillos, pensada para todas las personas, incluyendo aquellas con discapacidad física o cognitiva.
+            Bienvenido a la API oficial de <strong>OneClick Games</strong>, la plataforma web de juegos accesibles y
+            sencillos, pensada para todas las personas, incluyendo aquellas con discapacidad física o cognitiva.
         </p>
         <p>
             Esta API sirve como motor de la aplicación, gestionando usuarios, puntuaciones y rankings de los juegos.
         </p>
-        <div class="tag">v1.0 - Laravel + Postgres</div>
+        <p>
+            <a href="/docs" class="tag" style="text-decoration: none;">📘 Ver Documentación API</a>
+        </p>
+
     </div>
 </body>
+
 </html>

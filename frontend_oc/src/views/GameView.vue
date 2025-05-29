@@ -35,7 +35,8 @@
       <!-- Carga del componente de juego -->
       <div v-if="game">
         <OrdenarPalabras v-if="game.url === 'ordenar-palabras'" :juego="game" @finJuego="mostrarFinJuego" />
-        <!-- Aquí puedes añadir más juegos con v-if -->
+        <SecuenciaColores v-if="game.url === 'secuencia-de-colores'" :juego="game" @finJuego="mostrarFinJuego" />
+        <EncuentraNumero v-if="game.url === 'encuentra-el-numero'" :juego="game" @finJuego="mostrarFinJuego" />
       </div>
 
       <!-- JUEGO CARGANDO -->
@@ -62,7 +63,13 @@
 <script>
 import IconoHome from '@/components/IconoHome.vue'
 import TituloVistas from '@/components/TituloVistas.vue'
+
+//juegos
 import OrdenarPalabras from '@/components/games/OrdenarPalabras.vue'
+import SecuenciaColores from '@/components/games/SecuenciaColores.vue'
+import EncuentraNumero from '@/components/games/EncuentraNumero.vue'
+
+// modales
 import ModalRanking from '@/components/modales/ModalRanking.vue'
 import ModalFinJuego from '@/components/modales/ModalFinJuego.vue'
 
@@ -77,6 +84,8 @@ export default {
     IconoHome,
     TituloVistas,
     OrdenarPalabras,
+    SecuenciaColores,
+    EncuentraNumero,
     ModalRanking,
     ModalFinJuego
   },
