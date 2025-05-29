@@ -27,7 +27,7 @@
           :key="i" 
           @click="elegirLetra(i)"
           :disabled="letrasElegidas.includes(i)"
-          class="bg-purple-800 text-white text-4xl uppercase px-6 py-4 rounded-2xl hover:bg-purple-700 disabled:opacity-40 transition shadow-md min-w-[70px]">
+          class="bg-purple-800 text-white text-4xl uppercase px-6 py-4 rounded-2xl hover:bg-purple-700 disabled:opacity-40 transition shadow-md min-w-[70px] cursor-pointer">
           {{ letra }}
         </button>
       </div>
