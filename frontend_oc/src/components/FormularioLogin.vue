@@ -4,9 +4,9 @@
 
       <!-- Campo de nombre -->
       <div class="flex flex-col gap-1 w-full">
-        <label for="nickname" class="font-semibold text-blue-900">Nombre de usuario</label>
+        <label for="login-nickname" class="font-semibold text-blue-900">Nombre de usuario</label>
         <input
-          id="nickname"
+          id="login-nickname"
           :value="nickname"
           type="text"
           placeholder="Introduce tu nombre"
@@ -20,9 +20,9 @@
 
       <!-- Campo PIN -->
       <div class="flex flex-col gap-1 w-full">
-        <label for="pin" class="font-semibold text-blue-900">PIN de acceso</label>
+        <label for="login-pin" class="font-semibold text-blue-900">PIN de acceso</label>
         <input
-          id="pin"
+          id="login-pin"
           :value="pin"
           @input="actualizarPin($event.target.value)"
           type="password"
@@ -38,6 +38,7 @@
 
       <!-- Botón con spinner -->
       <button
+        id="login-enviar"
         type="submit"
         class="bg-blue-600 hover:bg-blue-700 transition duration-200 text-white font-semibold text-xl py-3 rounded-full w-full cursor-pointer flex items-center justify-center gap-2"
         :disabled="cargando"
@@ -54,7 +55,7 @@
     </form>
   </div>
 </template>
-<!-- FormularioLogin.vue -->
+
 <script>
 export default {
   name: 'FormularioLogin',
@@ -79,4 +80,3 @@ export default {
   }
 }
 </script>
-

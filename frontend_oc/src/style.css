@@ -1,4 +1,70 @@
 @import "tailwindcss";
-*{
+@import "driver.js/dist/driver.css";
+
+/* Fuente global */
+* {
   font-family: 'Fredoka', sans-serif;
 }
+
+/* POPOVER: contenedor */
+.driver-popover.driverjs-theme {
+  background-color: #fdf6b2; /* amarillo suave */
+  color: #1f2937; /* gris oscuro */
+  border-radius: 1.5rem;
+  padding: 2rem 2rem 1.75rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  max-width: 380px;
+  min-width: 260px;
+  width: auto;
+  position: absolute; /* ← no usar fixed */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid black; /* borde negro */
+  opacity: 1;
+ 
+ 
+}
+
+/* TÍTULO */
+.driver-popover.driverjs-theme .driver-popover-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600; /* Negrita */
+  text-align: center;
+  margin-bottom: 0.5rem; 
+}
+
+/* BOTONES de navegación */
+.driver-popover.driverjs-theme .driver-popover-navigation-btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* BOTÓN personalizado */
+.driver-popover.driverjs-theme button {
+  background-color: #2563eb !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  border-radius: 9999px !important;
+  padding: 0.75rem 2rem !important;
+  font-size: 1.08rem !important;
+  cursor: pointer !important;
+  font-family: 'Fredoka', sans-serif !important;
+}
+
+.driver-popover.driverjs-theme button:focus {
+  outline: 2px solid #1e40af;
+  outline-offset: 2px;
+}
+
+.driver-popover.driverjs-theme button:hover {
+  background-color: #1e40af;
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+
+

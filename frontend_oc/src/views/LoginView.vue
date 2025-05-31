@@ -20,8 +20,8 @@
         @establecerCampoActivo="campoActivo = $event"
       />
 
-      <!-- Teclado visual -->
-      <div class="grid grid-cols-5 gap-6 w-full hidden md:grid">
+      <!-- Teclado visual con ID para tutorial -->
+      <div id="login-teclado" class="grid grid-cols-5 gap-6 w-full hidden md:grid">
         <TecladoAlfabetico
           :alfabeto="ALFABETO"
           @tecla="escribirLetra"
@@ -45,7 +45,6 @@
   </div>
 </template>
 
-<!-- LoginView.vue -->
 <script>
 import TituloVistas from '@/components/TituloVistas.vue'
 import FormularioLogin from '@/components/FormularioLogin.vue'
@@ -56,6 +55,9 @@ import ModalConfirmacion from '@/components/modales/ModalConfirmacion.vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { userExists } from '@/services/auth'
+
+import { driver } from 'driver.js'
+import 'driver.js/dist/driver.css'
 
 export default {
   name: 'LoginView',
@@ -83,7 +85,62 @@ export default {
       cargando: false
     }
   },
+  mounted() {
+    if (!localStorage.getItem('tutorial_login_done')) {
+      this.iniciarTutorialLogin()
+      localStorage.setItem('tutorial_login_done', 'true')
+    }
+  },
   methods: {
+    async iniciarTutorialLogin() {
+      const driverObj = driver({
+        popoverClass: 'driverjs-theme',
+        nextBtnText: 'Siguiente',
+        prevBtnText: 'Anterior',
+        doneBtnText: 'Aceptar',
+        allowClose: false,
+        steps: [
+          {
+            element: '#login-nickname',
+            popover: {
+              title: 'Introduce un nickname para registrarte o iniciar sesión.',
+              description: '',
+              side: 'left',
+              align: 'center'
+            }
+          },
+          {
+            element: '#login-pin',
+            popover: {
+              title: 'Introduce tu PIN de acceso o crea uno nuevo.',
+              description: '',
+              side: 'right',
+              align: 'center'
+            }
+          },
+          {
+            element: '#login-teclado',
+            popover: {
+              title: 'Puedes utilizar los teclados de la pantalla si lo necesitas.',
+              description: '',
+              side: 'top',
+              align: 'center'
+            }
+          },
+          {
+            element: '#login-enviar',
+            popover: {
+              title: 'Empieza a JUGAR!',
+              description: '',
+              side: 'top',
+              align: 'center'
+            }
+          }
+        ]
+      })
+
+      driverObj.drive()
+    },
     escribirLetra(letra) {
       if (this.campoActivo === 'nickname') {
         this.nickname += letra.toUpperCase()
