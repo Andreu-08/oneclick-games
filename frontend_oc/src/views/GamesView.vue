@@ -121,7 +121,7 @@ export default {
           {
             element: '#games-jugar',
             popover: {
-              title: 'Presiona "JUEGA YA" para comenzar a jugar.',
+              title: '"JUEGA YA"',
               description: '',
               side: 'top',
               align: 'center'
