@@ -31,7 +31,7 @@
     <div id="games-jugar" class="flex justify-center bg-green-100 rounded-xl px-4 py-4 text-blue-900 text-base font-medium text-center shadow-inner h-[84px] flex items-center justify-center">
       <router-link
         :to="`/games/${game.url}`"
-        class="w-full max-w-[300px] py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold transition text-center focus:outline-none focus:ring-4 focus:ring-blue-300"
+        class="w-full max-w-[300px] py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-2xl font-semibold transition text-center focus:outline-none focus:ring-4 focus:ring-blue-300"
       >
         Jugar
       </router-link>

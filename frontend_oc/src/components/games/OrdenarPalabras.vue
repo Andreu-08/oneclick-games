@@ -1,7 +1,7 @@
 <template>
   <!-- Estructura principal del juego -->
   <div class="relative min-h-screen flex flex-col justify-start items-center px-4 pt-10 text-white">
-    
+
     <!-- Imagen de fondo -->
     <div class="absolute inset-0 bg-[url('@/assets/bg_home.webp')] bg-cover bg-center brightness-50"></div>
 
@@ -20,48 +20,57 @@
         </div>
       </div>
 
-      <!-- Letras que el usuario debe ordenar -->
-      <div class="flex flex-wrap justify-center gap-4 bg-purple-400 p-6 rounded-2xl shadow-inner w-full">
-        <button 
-          v-for="(letra, i) in letrasDesordenadas" 
-          :key="i" 
-          @click="elegirLetra(i)"
-          :disabled="letrasElegidas.includes(i)"
-          class="bg-purple-800 text-white text-4xl uppercase px-6 py-4 rounded-2xl hover:bg-purple-700 disabled:opacity-40 transition shadow-md min-w-[70px] cursor-pointer">
-          {{ letra }}
-        </button>
+      <!-- Cargando palabra -->
+      <div v-if="cargando" class="flex justify-center items-center min-h-[200px] w-full">
+        <div class="flex flex-wrap justify-center gap-4 bg-purple-200 p-6 rounded-2xl shadow-inner w-full animate-pulse">
+          <div v-for="n in 5" :key="n" class="bg-purple-500 opacity-40 h-20 w-20 rounded-2xl"></div>
+        </div>
       </div>
 
-      <!-- Letras seleccionadas por el usuario -->
-      <div class="flex justify-center gap-4 text-4xl font-extrabold font-mono tracking-widest">
-        <span 
-          v-for="(letra, i) in palabraUsuario" 
-          :key="'letra' + i"
-          class="uppercase border-b-4 border-blue-300 pb-2 w-12 text-center font-semibold">
-          {{ letra }}
-        </span>
-      </div>
+      <div v-else class="w-full flex flex-col gap-8 items-center">
+        <!-- Letras que el usuario debe ordenar -->
+        <div class="flex flex-wrap justify-center gap-4 bg-purple-400 p-6 rounded-2xl shadow-inner w-full">
+          <button 
+            v-for="(letra, i) in letrasDesordenadas" 
+            :key="i" 
+            @click="elegirLetra(i)"
+            :disabled="letrasElegidas.includes(i)"
+            class="bg-purple-800 text-white text-4xl uppercase px-6 py-4 rounded-2xl hover:bg-purple-700 disabled:opacity-40 transition shadow-md min-w-[70px] cursor-pointer">
+            {{ letra }}
+          </button>
+        </div>
 
-      <!-- Botones para borrar o pasar palabra -->
-      <div class="flex flex-wrap justify-center gap-10">
-        <button 
-          @click="borrarIntento"
-          class="bg-amber-400 hover:bg-amber-500 text-white text-lg font-semibold px-6 py-3 rounded-xl transition min-w-[160px] shadow-md">
-          Borrar intento
-        </button>
-        <button 
-          @click="siguientePalabra"
-          class="bg-rose-500 hover:bg-rose-600 text-white text-lg font-semibold px-6 py-3 rounded-xl transition min-w-[160px] shadow-md">
-          Siguiente palabra
-        </button>
-      </div>
+        <!-- Letras seleccionadas por el usuario -->
+        <div class="flex justify-center gap-4 text-4xl font-extrabold font-mono tracking-widest">
+          <span 
+            v-for="(letra, i) in palabraUsuario" 
+            :key="'letra' + i"
+            class="uppercase border-b-4 border-blue-300 pb-2 w-12 text-center font-semibold">
+            {{ letra }}
+          </span>
+        </div>
 
-      <!-- Mensaje que muestra si ha acertado o fallado -->
-      <div 
-        v-if="mensaje"
-        :class="mensaje.includes('Bien') ? 'bg-green-100 text-green-800 border border-green-300' : 'bg-red-100 text-red-800 border border-red-300'"
-        class="text-center font-semibold text-xl rounded-xl px-6 py-4 shadow-md min-h-[3.5rem] transition-all duration-300">
-        {{ mensaje }}
+        <!-- Botones para borrar o pasar palabra -->
+        <div class="flex flex-wrap justify-center gap-10">
+          <button 
+            @click="borrarIntento"
+            class="bg-amber-600 hover:bg-amber-900 text-stone-200 text-2xl font-semibold px-6 h-18 rounded-xl transition min-w-[160px] shadow-md cursor-pointer">
+            Borrar intento
+          </button>
+          <button 
+            @click="siguientePalabra"
+            class="bg-rose-600 hover:bg-rose-900 text-stone-200 text-2xl font-semibold px-6 h-18 rounded-xl transition min-w-[160px] shadow-md cursor-pointer">
+            Siguiente palabra
+          </button>
+        </div>
+
+        <!-- Mensaje que muestra si ha acertado o fallado -->
+        <div 
+          v-if="mensaje"
+          :class="mensaje.includes('Bien') ? 'bg-green-100 text-green-800 border border-green-300' : 'bg-red-100 text-red-800 border border-red-300'"
+          class="text-center font-semibold text-xl rounded-xl px-6 py-4 shadow-md min-h-[3.5rem] transition-all duration-300">
+          {{ mensaje }}
+        </div>
       </div>
 
     </div>
@@ -76,43 +85,45 @@ export default {
   emits: ['finJuego'],
   data() {
     return {
-      palabraCorrecta: '',        // palabra que hay que adivinar
-      letrasDesordenadas: [],     // letras en orden aleatorio
-      palabraUsuario: [],         // letras que selecciona el usuario
-      letrasElegidas: [],         // índices de letras ya pulsadas
-      mensaje: '',                // mensaje que muestra el resultado
-      puntos: 0,                  // contador de aciertos
-      vidas: 5                    // número de intentos disponibles
+      palabraCorrecta: '',
+      palabraSiguiente: '',
+      letrasDesordenadas: [],
+      palabraUsuario: [],
+      letrasElegidas: [],
+      mensaje: '',
+      puntos: 0,
+      vidas: 5,
+      cargando: true
     }
   },
-  mounted() {
-    // cuando se carga el componente se obtiene la primera palabra
-    this.cargarPalabra()
+  async mounted() {
+    this.palabraCorrecta = await this.obtenerPalabraValida()
+    this.letrasDesordenadas = this.mezclarLetras(this.palabraCorrecta)
+    this.palabraSiguiente = await this.obtenerPalabraValida()
+    this.cargando = false
   },
   methods: {
-    // obtiene una palabra aleatoria válida (máximo 5 letras)
-    async cargarPalabra() {
-      this.borrarIntento()
-      try {
-        let palabra = ''
-        do {
-          const nueva = await getPalabraAleatoria()
-          if (nueva.length <= 5) palabra = nueva.toLowerCase()
-        } while (!palabra)
-
-        this.palabraCorrecta = palabra
-        this.letrasDesordenadas = palabra.split('').sort(() => Math.random() - 0.5)
-      } catch (e) {
-        this.mensaje = 'No se pudo cargar la palabra'
-      }
+    async obtenerPalabraValida() {
+      let palabra = ''
+      do {
+        const nueva = await getPalabraAleatoria()
+        if (nueva.length <= 5) palabra = nueva.toLowerCase()
+      } while (!palabra)
+      return palabra
     },
 
-    // guarda la letra seleccionada por el usuario
+    mezclarLetras(palabra) {
+      let mezclada
+      do {
+        mezclada = palabra.split('').sort(() => Math.random() - 0.5)
+      } while (mezclada.join('') === palabra)
+      return mezclada
+    },
+
     elegirLetra(i) {
       this.palabraUsuario.push(this.letrasDesordenadas[i])
       this.letrasElegidas.push(i)
 
-      // si ya ha seleccionado todas las letras, se comprueba el resultado
       if (this.palabraUsuario.length === this.palabraCorrecta.length) {
         const intento = this.palabraUsuario.join('')
         if (intento === this.palabraCorrecta) {
@@ -123,38 +134,49 @@ export default {
           this.mensaje = `¡Fallaste! La palabra era "${this.palabraCorrecta}".`
         }
 
-        setTimeout(() => {
+        setTimeout(async () => {
           if (this.vidas === 0) {
             this.$emit('finJuego', this.puntos)
           } else {
-            this.cargarPalabra()
+            this.borrarIntento()
+            this.palabraCorrecta = this.palabraSiguiente
+            this.letrasDesordenadas = this.mezclarLetras(this.palabraCorrecta)
+            this.cargando = true
+            this.palabraSiguiente = await this.obtenerPalabraValida()
+            this.cargando = false
           }
         }, 1500)
       }
     },
 
-    // limpia el intento actual (para probar de nuevo)
     borrarIntento() {
       this.palabraUsuario = []
       this.letrasElegidas = []
       this.mensaje = ''
     },
 
-    // cambia a otra palabra y quita una vida
-    siguientePalabra() {
+    async siguientePalabra() {
       this.vidas--
       if (this.vidas === 0) {
         this.$emit('finJuego', this.puntos)
       } else {
-        this.cargarPalabra()
+        this.borrarIntento()
+        this.palabraCorrecta = this.palabraSiguiente
+        this.letrasDesordenadas = this.mezclarLetras(this.palabraCorrecta)
+        this.cargando = true
+        this.palabraSiguiente = await this.obtenerPalabraValida()
+        this.cargando = false
       }
     },
 
-    // reinicia el juego completo (para volver a jugar)
-    reiniciarJuego() {
+    async reiniciarJuego() {
       this.puntos = 0
       this.vidas = 5
-      this.cargarPalabra()
+      this.cargando = true
+      this.palabraCorrecta = await this.obtenerPalabraValida()
+      this.letrasDesordenadas = this.mezclarLetras(this.palabraCorrecta)
+      this.palabraSiguiente = await this.obtenerPalabraValida()
+      this.cargando = false
     }
   }
 }
