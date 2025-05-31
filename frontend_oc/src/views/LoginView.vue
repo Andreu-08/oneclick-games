@@ -103,7 +103,7 @@ export default {
           {
             element: '#login-nickname',
             popover: {
-              title: 'Introduce un nickname para registrarte o iniciar sesión.',
+              title: 'Introduce un nickname para registrarte o iniciar sesión',
               description: '',
               side: 'left',
               align: 'center'
@@ -112,7 +112,7 @@ export default {
           {
             element: '#login-pin',
             popover: {
-              title: 'Introduce tu PIN de acceso o crealo si eres nuevo.',
+              title: 'Introduce tu PIN de acceso o crealo si eres nuevo',
               description: '',
               side: 'right',
               align: 'center'
@@ -121,7 +121,7 @@ export default {
           {
             element: '#login-teclado',
             popover: {
-              title: 'Puedes utilizar los teclados de la pantalla si lo necesitas.',
+              title: 'Puedes utilizar los teclados de la pantalla si lo necesitas',
               description: '',
               side: 'top',
               align: 'center'
