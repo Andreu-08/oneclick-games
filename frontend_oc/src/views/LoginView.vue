@@ -112,7 +112,7 @@ export default {
           {
             element: '#login-pin',
             popover: {
-              title: 'Introduce tu PIN de acceso o crea uno nuevo.',
+              title: 'Introduce tu PIN de acceso o crealo si eres nuevo.',
               description: '',
               side: 'right',
               align: 'center'
