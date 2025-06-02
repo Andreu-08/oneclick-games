@@ -90,7 +90,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes programas en tu
 1. Clona este repositorio:
 
 ```bash
-git clone https://github.com/tu-usuario/oneclick-games.git
+git clone https://github.com/Andreu-08/oneclick-games.git
 cd oneclick-games
 code .
 ```
