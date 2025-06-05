@@ -152,3 +152,12 @@ Luego añade una nueva conexión manualmente con estos datos:
 📧 andreuorenga@gmial.com  
 🎓 2º DAW - Proyecto Fin de Ciclo
 
+**Presentación**
+https://www.canva.com/design/DAGpX4l84t8/5wWSCixi18Q5bw3PixuPhg/view?utm_content=DAGpX4l84t8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h591635c487
+
+**Aplicación Vercel**
+https://oneclick-games.vercel.app/
+
+**API publica**
+https://oneclick-games-production.up.railway.app/
+
